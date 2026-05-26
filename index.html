@@ -1,0 +1,2289 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fachrel Amrillah | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --bg: #0B1026;
+      --bg2: #241C4A;
+      --cyan: #00E5FF;
+      --pink: #FF5DA2;
+      --white: #ffffff;
+      --glass: rgba(255,255,255,0.03);
+      --glass-border: rgba(255,255,255,0.06);
+      --text: rgba(255,255,255,0.7);
+      --text-dim: rgba(255,255,255,0.4);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: #fff;
+      overflow-x: hidden;
+      min-height: 100dvh;
+      width: 100%; max-width: 100vw;
+    }
+    body.no-scroll { overflow: hidden !important; }
+    img { max-width: 100%; height: auto; display: block; }
+    a { text-decoration: none; color: inherit; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 10px; box-shadow: 0 0 10px rgba(0,229,255,0.3); }
+
+    /* ===== TAP TO ENTER OVERLAY ===== */
+    #tap-overlay {
+      position: fixed; inset: 0; z-index: 100000;
+      background: var(--bg);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    #tap-overlay.hidden { opacity: 0; transform: scale(1.05); pointer-events: none; }
+    #tap-overlay .tap-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3rem; font-weight: 900;
+      background: linear-gradient(135deg, var(--cyan), var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: 8px; margin-bottom: 2rem;
+      animation: tapPulse 2s ease-in-out infinite;
+    }
+    @keyframes tapPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    #tap-overlay .tap-hint {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 0.85rem; color: rgba(0,229,255,0.6);
+      letter-spacing: 6px; text-transform: uppercase;
+      animation: tapBlink 1.5s ease-in-out infinite;
+    }
+    @keyframes tapBlink { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+    #tap-overlay .tap-icon {
+      font-size: 2.5rem; margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, var(--cyan), var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: tapFloat 2s ease-in-out infinite;
+    }
+    @keyframes tapFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+    /* ===== BACKGROUND CANVAS ===== */
+    #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 9999;
+      padding: 1.2rem 2rem;
+      display: flex; align-items: center; gap: 1.5rem;
+      transition: var(--transition);
+    }
+    nav.scrolled {
+      background: rgba(11,16,38,0.75);
+      backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+      border-bottom: 1px solid rgba(0,229,255,0.08);
+      padding: 0.8rem 2rem;
+    }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.4rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--cyan), var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      text-decoration: none; flex-shrink: 0; position: relative; z-index: 100;
+      letter-spacing: 1px;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; margin-right: auto; }
+    .nav-links a {
+      color: var(--text); text-decoration: none;
+      font-size: 0.85rem; font-weight: 500; transition: var(--transition);
+      position: relative; letter-spacing: 0.5px; padding: 0.3rem 0;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px;
+      background: var(--cyan); transition: width 0.3s ease;
+      box-shadow: 0 0 10px rgba(0,229,255,0.5);
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; }
+    .lang-selector { position: relative; flex-shrink: 0; z-index: 100; }
+    .lang-current {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+      border-radius: 8px; padding: 0.4rem 0.8rem; cursor: pointer;
+      color: var(--text); font-size: 0.8rem; font-family: 'Inter', sans-serif;
+      transition: var(--transition); white-space: nowrap;
+    }
+    .lang-current:hover { border-color: rgba(0,229,255,0.3); color: #fff; }
+    .lang-current i { font-size: 0.7rem; transition: transform 0.3s ease; }
+    .lang-current.open i { transform: rotate(180deg); }
+    .lang-dropdown {
+      position: absolute; top: calc(100% + 8px); right: 0;
+      background: rgba(11,16,38,0.95); border: 1px solid var(--glass-border);
+      border-radius: var(--radius-sm); padding: 0.4rem; min-width: 170px;
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      opacity: 0; transform: translateY(-8px) scale(0.96);
+      pointer-events: none; transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+      max-height: 260px; overflow-y: auto; z-index: 99999;
+    }
+    .lang-dropdown.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+    .lang-dropdown::-webkit-scrollbar { width: 3px; }
+    .lang-dropdown::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 3px; }
+    .lang-option {
+      display: flex; align-items: center; gap: 8px;
+      padding: 0.5rem 0.8rem; cursor: pointer; border-radius: 6px;
+      color: var(--text); font-size: 0.8rem; transition: all 0.2s ease;
+      border: none; background: none; width: 100%; font-family: 'Inter', sans-serif;
+      text-align: left;
+    }
+    .lang-option:hover { background: rgba(0,229,255,0.08); color: #fff; }
+    .lang-option.active { color: var(--cyan); background: rgba(0,229,255,0.1); }
+    .lang-option .flag { font-size: 1rem; }
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; z-index: 100; padding: 5px; flex-shrink: 0;
+    }
+    .hamburger span {
+      width: 24px; height: 2px; background: #fff; border-radius: 2px;
+      transition: var(--transition);
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; transform: translateX(-10px); }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+    /* ===== HERO ===== */
+    #hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 7rem 2rem 4rem; position: relative; overflow: hidden;
+    }
+    #hero::before {
+      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: radial-gradient(ellipse at 30% 50%, rgba(0,229,255,0.03) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 50%, rgba(255,93,162,0.03) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; width: 100%; position: relative; z-index: 2; }
+    .hero-content { position: relative; }
+    .hero-greeting {
+      font-size: 0.9rem; color: var(--cyan); letter-spacing: 4px;
+      text-transform: uppercase; margin-bottom: 0.8rem;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .hero-greeting .greeting-line {
+      width: 50px; height: 1px;
+      background: linear-gradient(90deg, var(--cyan), transparent);
+    }
+    .hero-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4.8rem); font-weight: 800; line-height: 1.08;
+      margin-bottom: 1rem;
+    }
+    .hero-name .highlight {
+      background: linear-gradient(135deg, var(--cyan), var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      position: relative;
+    }
+    .hero-name .highlight::after {
+      content: ''; position: absolute; bottom: 2px; left: 0; width: 100%; height: 4px;
+      background: linear-gradient(90deg, var(--cyan), var(--pink));
+      border-radius: 4px; opacity: 0.3; filter: blur(4px);
+    }
+    .hero-subtitle {
+      font-size: 1.1rem; color: var(--text);
+      margin-bottom: 0.6rem; min-height: 1.8rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .hero-subtitle .typing-cursor {
+      display: inline-block; width: 3px; height: 1.1rem;
+      background: var(--cyan); margin-left: 4px;
+      animation: blink 0.8s step-end infinite; vertical-align: text-bottom;
+      box-shadow: 0 0 8px rgba(0,229,255,0.6);
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    .hero-desc {
+      color: var(--text-dim); font-size: 0.95rem;
+      margin-bottom: 2.5rem; max-width: 500px; line-height: 1.8;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary, .btn-secondary {
+      padding: 0.9rem 2rem; border-radius: 50px; font-family: 'Inter', sans-serif;
+      font-size: 0.9rem; font-weight: 600; cursor: pointer;
+      transition: var(--transition); display: inline-flex; align-items: center; gap: 8px;
+      text-decoration: none; position: relative; overflow: hidden;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), #0099CC);
+      color: var(--bg); border: none;
+      box-shadow: 0 0 30px rgba(0,229,255,0.25);
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 0 50px rgba(0,229,255,0.4); }
+    .btn-secondary {
+      background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.15);
+    }
+    .btn-secondary:hover { border-color: var(--cyan); box-shadow: 0 0 30px rgba(0,229,255,0.15); transform: translateY(-3px); }
+
+    .hero-image-wrap {
+      position: relative; display: flex; justify-content: center; align-items: center;
+    }
+    .hero-image-frame {
+      width: 380px; height: 380px; border-radius: 30px;
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, rgba(0,229,255,0.08), rgba(255,93,162,0.08));
+      border: 1px solid rgba(0,229,255,0.15);
+      animation: heroFloat 6s ease-in-out infinite;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-image-frame::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,229,255,0.1), transparent, rgba(255,93,162,0.1));
+      z-index: 1; pointer-events: none;
+    }
+    @keyframes heroFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+    .hero-image-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 30px; }
+    .hero-glow-1, .hero-glow-2 {
+      position: absolute; border-radius: 50%; pointer-events: none;
+      filter: blur(80px);
+    }
+    .hero-glow-1 { width: 300px; height: 300px; background: rgba(0,229,255,0.12); top: -50px; right: -50px; animation: glowFloat1 8s ease-in-out infinite; }
+    .hero-glow-2 { width: 250px; height: 250px; background: rgba(255,93,162,0.08); bottom: -30px; left: -30px; animation: glowFloat2 8s ease-in-out infinite; }
+    @keyframes glowFloat1 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(30px,30px); } }
+    @keyframes glowFloat2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-20px,-20px); } }
+
+    .hero-scroll-indicator {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: var(--text-dim); font-size: 0.7rem; letter-spacing: 3px;
+      animation: bounceDown 2s ease-in-out infinite; z-index: 2;
+    }
+    @keyframes bounceDown { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+    .hero-scroll-indicator i { font-size: 0.8rem; color: var(--cyan); }
+
+    /* ===== SECTIONS ===== */
+    section { position: relative; z-index: 1; padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 4rem; }
+    .section-header .section-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--cyan); font-weight: 500;
+      margin-bottom: 0.8rem;
+    }
+    .section-header .section-tag .tag-line {
+      width: 30px; height: 1px; background: var(--cyan);
+      box-shadow: 0 0 8px rgba(0,229,255,0.3);
+    }
+    .section-header h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 700;
+      background: linear-gradient(135deg, var(--cyan), var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 0.8rem;
+    }
+    .section-header p { color: var(--text-dim); font-size: 1rem; }
+    .section-line {
+      width: 60px; height: 3px;
+      background: linear-gradient(90deg, var(--cyan), var(--pink));
+      margin: 1rem auto 0; border-radius: 3px;
+      box-shadow: 0 0 20px rgba(0,229,255,0.3);
+    }
+
+    /* ===== GLASS CARD ===== */
+    .glass {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      transition: var(--transition);
+    }
+    .glass:hover { border-color: rgba(0,229,255,0.15); box-shadow: 0 8px 40px rgba(0,229,255,0.05); }
+
+    /* ===== ABOUT ===== */
+    #about { padding-top: 4rem; padding-bottom: 4rem; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+    .about-text h3 {
+      font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .about-text h3 span {
+      background: linear-gradient(135deg, var(--cyan), var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .about-text p { color: var(--text); line-height: 1.8; margin-bottom: 1rem; font-size: 0.95rem; }
+    .about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; }
+    .stat-card {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      border-radius: var(--radius); padding: 1.5rem 1rem; text-align: center;
+      transition: var(--transition); backdrop-filter: blur(10px);
+      position: relative; overflow: hidden;
+    }
+    .stat-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      opacity: 0; transition: opacity 0.4s ease;
+    }
+    .stat-card:hover::before { opacity: 1; }
+    .stat-card:hover { transform: translateY(-5px); border-color: rgba(0,229,255,0.15); box-shadow: 0 10px 40px rgba(0,229,255,0.05); }
+    .stat-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--cyan), var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label { color: var(--text-dim); font-size: 0.8rem; margin-top: 0.3rem; }
+    .stat-icon { font-size: 1.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, var(--cyan), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    /* ===== SKILLS ===== */
+    #skills { padding-top: 4rem; padding-bottom: 4rem; }
+    .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .skill-card {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      border-radius: var(--radius); padding: 1.5rem; text-align: center;
+      transition: var(--transition); backdrop-filter: blur(10px);
+      position: relative; overflow: hidden;
+    }
+    .skill-card::before {
+      content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(180deg, transparent, rgba(0,229,255,0.03));
+      transition: top 0.6s ease;
+    }
+    .skill-card:hover::before { top: 0; }
+    .skill-card:hover { transform: translateY(-8px); border-color: rgba(0,229,255,0.15); box-shadow: 0 10px 40px rgba(0,229,255,0.05); }
+    .skill-icon {
+      font-size: 2.5rem; margin-bottom: 0.8rem;
+      background: linear-gradient(135deg, var(--cyan), var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .skill-card h4 { font-size: 1rem; margin-bottom: 0.8rem; color: #fff; }
+    .skill-bar-wrap { width: 100%; height: 4px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+    .skill-bar {
+      height: 100%; width: 0;
+      background: linear-gradient(90deg, var(--cyan), var(--pink));
+      border-radius: 4px; transition: width 1.5s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 0 0 10px rgba(0,229,255,0.3);
+    }
+    .skill-bar.animated { width: var(--target); }
+    .skill-percent { font-size: 0.8rem; color: var(--cyan); margin-top: 0.5rem; }
+
+    /* ===== PROJECTS ===== */
+    #projects { padding-top: 4rem; padding-bottom: 4rem; }
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .project-card {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      border-radius: var(--radius); overflow: hidden;
+      transition: var(--transition); backdrop-filter: blur(10px);
+      position: relative; cursor: pointer; group: true;
+    }
+    .project-card:hover { transform: translateY(-10px); border-color: rgba(0,229,255,0.15); box-shadow: 0 20px 60px rgba(0,229,255,0.05); }
+    .project-thumb {
+      width: 100%; height: 200px;
+      background: linear-gradient(135deg, var(--bg2), var(--bg));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem; position: relative; overflow: hidden;
+      transition: var(--transition);
+    }
+    .project-thumb::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 50%, rgba(11,16,38,0.6));
+    }
+    .project-card:hover .project-thumb { transform: scale(1.03); }
+    .project-thumb i {
+      background: linear-gradient(135deg, var(--cyan), var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      position: relative; z-index: 1;
+    }
+    .project-thumb img {
+      width: 100%; height: 100%; object-fit: cover;
+      position: absolute; inset: 0; transition: transform 0.5s ease;
+    }
+    .project-card:hover .project-thumb img { transform: scale(1.1); }
+    .project-body { padding: 1.5rem; position: relative; }
+    .project-body h4 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .project-body p { color: var(--text); font-size: 0.85rem; margin-bottom: 1rem; line-height: 1.7; }
+    .project-tech { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+    .project-tech span {
+      padding: 0.25rem 0.8rem; background: rgba(0,229,255,0.08);
+      border: 1px solid rgba(0,229,255,0.15); border-radius: 50px;
+      font-size: 0.7rem; color: var(--cyan);
+    }
+    .project-links { display: flex; gap: 1rem; }
+    .project-links a {
+      color: var(--text); text-decoration: none;
+      font-size: 0.8rem; transition: var(--transition);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .project-links a:hover { color: var(--cyan); }
+    .project-links .btn-preview {
+      padding: 0.4rem 1rem; border-radius: 50px;
+      background: linear-gradient(135deg, var(--cyan), #0099CC);
+      color: var(--bg); font-weight: 600; font-size: 0.75rem;
+    }
+    .project-links .btn-preview:hover { color: var(--bg); box-shadow: 0 0 20px rgba(0,229,255,0.3); }
+    .project-links .btn-detail {
+      padding: 0.4rem 1rem; border-radius: 50px;
+      border: 1px solid rgba(0,229,255,0.2); color: var(--cyan);
+      font-size: 0.75rem;
+    }
+    .project-links .btn-detail:hover { background: rgba(0,229,255,0.05); color: var(--cyan); }
+
+    /* ===== PORTFOLIO ===== */
+    #portfolio { padding-top: 4rem; padding-bottom: 4rem; }
+    .filter-btns { display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .filter-btn {
+      padding: 0.5rem 1.5rem; background: transparent; border: 1px solid var(--glass-border);
+      color: var(--text); border-radius: 50px; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 0.8rem; transition: var(--transition);
+    }
+    .filter-btn.active, .filter-btn:hover { background: rgba(0,229,255,0.08); border-color: rgba(0,229,255,0.3); color: var(--cyan); }
+    .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+    .portfolio-item {
+      border-radius: var(--radius-sm); overflow: hidden; cursor: pointer;
+      position: relative; aspect-ratio: 4/3;
+      background: linear-gradient(135deg, var(--bg2), var(--bg));
+      border: 1px solid var(--glass-border);
+      transition: var(--transition);
+    }
+    .portfolio-item:hover { transform: scale(1.02); border-color: rgba(0,229,255,0.15); }
+    .portfolio-item .overlay {
+      position: absolute; inset: 0;
+      background: rgba(11,16,38,0.7);
+      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: var(--transition);
+    }
+    .portfolio-item:hover .overlay { opacity: 1; }
+    .portfolio-item .overlay i { font-size: 2rem; color: var(--cyan); }
+    .portfolio-item img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+    .portfolio-item:hover img { transform: scale(1.1); }
+    #lightbox {
+      position: fixed; inset: 0; z-index: 99999;
+      background: rgba(11,16,38,0.92);
+      backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+      display: none; align-items: center; justify-content: center;
+      cursor: pointer;
+    }
+    #lightbox.show { display: flex; }
+    #lightbox img { max-width: 85%; max-height: 85%; border-radius: var(--radius); border: 1px solid rgba(0,229,255,0.12); }
+    #lightbox .close-lb {
+      position: absolute; top: 2rem; right: 2rem;
+      font-size: 2rem; color: #fff; cursor: pointer;
+      transition: var(--transition);
+    }
+    #lightbox .close-lb:hover { color: var(--cyan); transform: rotate(90deg); }
+
+    /* ===== TIMELINE ===== */
+    #experience { padding-top: 4rem; padding-bottom: 4rem; }
+    .timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 2rem 0; }
+    .timeline::before {
+      content: ''; position: absolute; left: 50%; top: 0; width: 2px; height: 100%;
+      background: linear-gradient(to bottom, var(--cyan), var(--pink));
+      transform: translateX(-50%);
+    }
+    .timeline-item {
+      display: flex; justify-content: flex-end; padding: 1rem 0;
+      position: relative; width: 50%;
+    }
+    .timeline-item:nth-child(even) { align-self: flex-end; justify-content: flex-start; margin-left: 50%; }
+    .timeline-content {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      border-radius: var(--radius-sm); padding: 1.2rem; width: 90%;
+      backdrop-filter: blur(10px); transition: var(--transition);
+    }
+    .timeline-content:hover { border-color: rgba(0,229,255,0.15); transform: translateY(-3px); }
+    .timeline-dot {
+      position: absolute; top: 50%; width: 14px; height: 14px;
+      background: var(--cyan); border-radius: 50%;
+      box-shadow: 0 0 20px rgba(0,229,255,0.5);
+    }
+    .timeline-item:nth-child(odd) .timeline-dot { right: -7px; }
+    .timeline-item:nth-child(even) .timeline-dot { left: -7px; }
+    .timeline-content h4 { font-size: 1rem; color: var(--cyan); margin-bottom: 0.3rem; }
+    .timeline-content p { color: var(--text); font-size: 0.85rem; }
+    .timeline-content .date { color: var(--pink); font-size: 0.8rem; margin-bottom: 0.5rem; display: block; }
+    .timeline-icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--pink));
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 0.7rem; font-size: 0.9rem; color: var(--bg);
+    }
+
+    /* ===== TESTIMONIALS ===== */
+    #testimonials { padding-top: 4rem; padding-bottom: 4rem; }
+    .testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .testimonial-card {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      border-radius: var(--radius); padding: 2rem 1.5rem;
+      backdrop-filter: blur(10px); transition: var(--transition);
+      position: relative; animation: float 4s ease-in-out infinite;
+      display: flex; flex-direction: column; align-items: flex-start;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .testimonial-card::before {
+      content: '\201C'; position: absolute; top: 0.5rem; left: 1.2rem;
+      font-size: 4rem; color: rgba(0,229,255,0.06); font-family: serif; line-height: 1;
+    }
+    .testimonial-card:hover {
+      animation-play-state: paused; transform: translateY(-8px);
+      border-color: rgba(0,229,255,0.15);
+      box-shadow: 0 20px 60px rgba(0,229,255,0.05);
+    }
+    .testimonial-stars { color: var(--pink); margin-bottom: 0.8rem; font-size: 0.85rem; flex-shrink: 0; }
+    .testimonial-card p {
+      color: var(--text); font-size: 0.85rem; line-height: 1.8; margin-bottom: 1rem;
+      font-style: italic; min-height: 4.5rem; flex: 1; display: flex; align-items: flex-start;
+    }
+    .testimonial-author {
+      display: flex; align-items: center; gap: 0.8rem;
+      width: 100%; flex-shrink: 0; margin-top: auto; padding-top: 0.5rem;
+    }
+    .testimonial-avatar {
+      width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--cyan), var(--pink));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 1.1rem; color: var(--bg);
+    }
+    .testimonial-author div { display: flex; flex-direction: column; justify-content: center; }
+    .testimonial-author div small { display: block; color: var(--text-dim); font-size: 0.75rem; margin-top: 0.15rem; }
+
+    /* ===== QUOTE ===== */
+    .quote-section {
+      text-align: center; padding: 4rem 2rem;
+      position: relative; max-width: 1200px; margin: 0 auto;
+    }
+    .quote-section blockquote {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem; color: rgba(255,255,255,0.85);
+      max-width: 700px; margin: 0 auto; line-height: 1.5;
+      position: relative;
+    }
+    .quote-section blockquote::before {
+      content: '"'; color: var(--cyan); font-size: 3.5rem;
+      position: absolute; left: -2rem; top: -0.5rem; opacity: 0.4;
+    }
+    .quote-section cite { display: block; margin-top: 1rem; color: var(--pink); font-style: normal; font-size: 0.9rem; }
+
+    /* ===== ACHIEVEMENT BADGE ===== */
+    .achievement-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 0.4rem 1rem; background: rgba(255,93,162,0.08);
+      border: 1px solid rgba(255,93,162,0.15); border-radius: 50px;
+      font-size: 0.8rem; color: var(--pink);
+    }
+
+    /* ===== CONTACT ===== */
+    #contact { padding-top: 4rem; padding-bottom: 4rem; position: relative; }
+    .contact-wrapper { max-width: 1100px; margin: 0 auto; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+    .contact-form-col { position: relative; }
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .contact-form .input-group { position: relative; }
+    .contact-form input, .contact-form textarea {
+      width: 100%; height: 54px;
+      padding: 0 1.2rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      color: #fff; font-family: 'Inter', sans-serif; font-size: 0.9rem;
+      transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+      outline: none;
+    }
+    .contact-form textarea {
+      height: 140px; padding: 1rem 1.2rem; resize: vertical;
+    }
+    .contact-form input::placeholder, .contact-form textarea::placeholder {
+      color: rgba(255,255,255,0.35); font-weight: 400;
+    }
+    .contact-form input:focus, .contact-form textarea:focus {
+      border-color: rgba(0,229,255,0.4);
+      box-shadow: 0 0 30px rgba(0,229,255,0.08), inset 0 0 30px rgba(0,229,255,0.02);
+      background: rgba(255,255,255,0.05);
+    }
+    .contact-form input:hover, .contact-form textarea:hover {
+      border-color: rgba(255,255,255,0.12);
+    }
+    .contact-submit {
+      padding: 0.85rem 2rem; border: none; border-radius: 14px;
+      background: linear-gradient(135deg, var(--cyan), #0099CC);
+      color: var(--bg); font-family: 'Inter', sans-serif;
+      font-size: 0.95rem; font-weight: 700; cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 0 0 25px rgba(0,229,255,0.2);
+      position: relative; overflow: hidden;
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 10px; margin: 0 auto; min-width: 200px;
+    }
+    .contact-submit:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 0 45px rgba(0,229,255,0.35);
+    }
+    .contact-submit:active { transform: translateY(0) scale(0.98); }
+    .contact-submit i { font-size: 0.85rem; transition: transform 0.3s ease; }
+    .contact-submit:hover i { transform: translateX(3px) rotate(-10deg); }
+    .contact-submit .btn-loading { display: none; }
+    .contact-submit.loading .btn-text { display: none; }
+    .contact-submit.loading .btn-loading { display: inline-flex; align-items: center; gap: 8px; }
+    .contact-submit.loading { pointer-events: none; opacity: 0.8; }
+    .form-error {
+      display: block; font-size: 0.75rem; color: #FF5DA2;
+      margin-top: 0.3rem; min-height: 1rem; opacity: 0;
+      transition: opacity 0.3s ease; padding-left: 0.3rem;
+    }
+    .form-error.show { opacity: 1; }
+    .input-group.error input, .input-group.error textarea {
+      border-color: rgba(255,93,162,0.5);
+      box-shadow: 0 0 20px rgba(255,93,162,0.1);
+    }
+    .contact-toast {
+      position: fixed; top: 5.5rem; right: 2rem; z-index: 2147483647;
+      padding: 1rem 1.5rem; border-radius: 14px;
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      font-size: 0.9rem; font-weight: 600;
+      transform: translateX(120%); opacity: 0;
+      transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+      max-width: 350px; pointer-events: none;
+    }
+    .contact-toast.show { transform: translateX(0); opacity: 1; pointer-events: auto; }
+    .contact-toast.success {
+      background: rgba(0,229,255,0.12); border: 1px solid rgba(0,229,255,0.3);
+      color: var(--cyan); box-shadow: 0 0 30px rgba(0,229,255,0.15);
+    }
+    .contact-toast.error {
+      background: rgba(255,93,162,0.12); border: 1px solid rgba(255,93,162,0.3);
+      color: var(--pink); box-shadow: 0 0 30px rgba(255,93,162,0.15);
+    }
+    .contact-toast i { margin-right: 8px; }
+    @media (max-width: 768px) {
+      .contact-toast { top: auto; bottom: 1rem; right: 1rem; left: 1rem; max-width: none; font-size: 0.85rem; }
+    }
+    .contact-info-col { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px; padding: 1.2rem 1.5rem;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+      display: flex; align-items: center; gap: 1.2rem;
+      position: relative; overflow: hidden; cursor: pointer;
+      text-decoration: none; color: inherit;
+    }
+    .contact-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, rgba(0,229,255,0.03), rgba(255,93,162,0.03));
+      opacity: 0; transition: opacity 0.4s ease; pointer-events: none;
+    }
+    .contact-card:hover::before { opacity: 1; }
+    .contact-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0,229,255,0.15);
+      box-shadow: 0 12px 40px rgba(0,229,255,0.06);
+    }
+    .contact-card-icon {
+      width: 50px; height: 50px; border-radius: 16px;
+      background: linear-gradient(135deg, rgba(0,229,255,0.1), rgba(255,93,162,0.1));
+      border: 1px solid rgba(0,229,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+      transition: all 0.4s ease;
+    }
+    .contact-card:hover .contact-card-icon {
+      background: linear-gradient(135deg, rgba(0,229,255,0.18), rgba(255,93,162,0.18));
+      border-color: rgba(0,229,255,0.2);
+      transform: scale(1.05);
+    }
+    .contact-card-icon i {
+      background: linear-gradient(135deg, var(--cyan), var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .contact-card-body { flex: 1; min-width: 0; }
+    .contact-card-body h4 { font-size: 0.88rem; font-weight: 600; color: #fff; margin-bottom: 0.2rem; }
+    .contact-card-body p {
+      font-size: 0.8rem; color: var(--text-dim);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .contact-card-btn {
+      padding: 0.45rem 1rem; border-radius: 10px;
+      background: linear-gradient(135deg, var(--cyan), #0099CC);
+      color: var(--bg); font-family: 'Inter', sans-serif;
+      font-size: 0.75rem; font-weight: 600; cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+      border: none; text-decoration: none; flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    .contact-card-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 25px rgba(0,229,255,0.3);
+    }
+    .contact-card-btn i { font-size: 0.7rem; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      position: relative; z-index: 1; text-align: center;
+      padding: 3rem 2rem; border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    footer .social-links { display: flex; justify-content: center; gap: 1.2rem; margin-bottom: 1.5rem; }
+    footer .social-links a {
+      width: 42px; height: 42px; border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text); text-decoration: none;
+      transition: var(--transition); font-size: 1rem;
+    }
+    footer .social-links a:hover {
+      border-color: var(--cyan); color: var(--cyan);
+      transform: translateY(-3px);
+      box-shadow: 0 0 25px rgba(0,229,255,0.15);
+    }
+    footer p { color: var(--text-dim); font-size: 0.8rem; }
+
+    /* ===== BACK TO TOP ===== */
+    #back-to-top {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+      width: 42px; height: 42px; border-radius: 50%;
+      background: rgba(11,16,38,0.75); backdrop-filter: blur(15px);
+      border: 1px solid rgba(0,229,255,0.2);
+      color: var(--cyan); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; transition: var(--transition);
+      opacity: 0; transform: translateY(20px); pointer-events: none;
+    }
+    #back-to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    #back-to-top:hover {
+      background: rgba(0,229,255,0.08);
+      box-shadow: 0 0 30px rgba(0,229,255,0.2);
+      transform: translateY(-3px);
+    }
+
+    /* ===== MUSIC PLAYER ===== */
+    .music-player {
+      position: fixed; bottom: 2rem; left: 2rem; z-index: 999;
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(11,16,38,0.8);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(0,229,255,0.12);
+      border-radius: 50px; padding: 8px 16px 8px 8px;
+      transition: var(--transition); cursor: pointer;
+    }
+    .music-player.hidden { transform: translateX(-120%); opacity: 0; pointer-events: none; }
+    .music-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--pink));
+      border: none; color: var(--bg); font-size: 0.9rem;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: var(--transition); flex-shrink: 0;
+    }
+    .music-btn:hover { transform: scale(1.1); box-shadow: 0 0 20px rgba(0,229,255,0.3); }
+    .music-info { display: flex; flex-direction: column; }
+    .music-title { font-size: 0.7rem; color: #fff; font-weight: 600; white-space: nowrap; }
+    .music-artist { font-size: 0.6rem; color: var(--text-dim); }
+    .music-bar { width: 50px; height: 20px; display: flex; align-items: center; gap: 3px; margin-left: 6px; }
+    .music-bar span {
+      width: 3px; background: var(--cyan); border-radius: 3px;
+      animation: musicWave 1.2s ease-in-out infinite;
+    }
+    .music-bar span:nth-child(1) { height: 8px; animation-delay: 0s; }
+    .music-bar span:nth-child(2) { height: 14px; animation-delay: 0.2s; }
+    .music-bar span:nth-child(3) { height: 10px; animation-delay: 0.4s; }
+    .music-bar span:nth-child(4) { height: 16px; animation-delay: 0.1s; }
+    .music-bar.paused span { animation-play-state: paused; opacity: 0.25; }
+    @keyframes musicWave { 0%,100% { transform: scaleY(0.5); } 50% { transform: scaleY(1); } }
+    .music-toggle-vis {
+      position: fixed; bottom: 2rem; left: 2rem; z-index: 998;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(11,16,38,0.8); backdrop-filter: blur(20px);
+      border: 1px solid rgba(0,229,255,0.12);
+      color: var(--cyan); cursor: pointer;
+      display: none; align-items: center; justify-content: center;
+      font-size: 0.9rem; transition: var(--transition);
+    }
+    .music-toggle-vis.show { display: flex; }
+
+    /* ===== SCROLL REVEAL ===== */
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.4,0,0.2,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-40px); transition: all 0.8s cubic-bezier(0.4,0,0.2,1); }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(40px); transition: all 0.8s cubic-bezier(0.4,0,0.2,1); }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+    .reveal-scale { opacity: 0; transform: scale(0.85); transition: all 0.8s cubic-bezier(0.4,0,0.2,1); }
+    .reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+    /* ===== COUNTER ===== */
+    .counter-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--cyan), var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (min-width: 1921px) {
+      section { max-width: 1400px; padding: 7rem 2rem; }
+      .hero-name { font-size: clamp(4rem, 4.5vw, 5.5rem); }
+    }
+    @media (max-width: 1200px) {
+      .hero-name { font-size: 4rem; }
+    }
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-name { font-size: clamp(2.5rem, 5vw, 3.5rem); }
+      .hero-desc { margin: 0 auto 2rem; max-width: 90%; }
+      .hero-btns { justify-content: center; }
+      .hero-image-wrap { order: -1; margin-bottom: 1rem; }
+      .hero-image-frame { width: 280px; height: 280px; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .about-text { text-align: center; }
+      .about-text h3 { font-size: 1.6rem; }
+      .about-stats { grid-template-columns: repeat(2, 1fr); }
+      .skills-grid { grid-template-columns: repeat(3, 1fr); }
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+      .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonial-grid { grid-template-columns: repeat(2, 1fr); }
+      .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .contact-info-col { flex-direction: row; flex-wrap: wrap; }
+      .contact-card { flex: 1; min-width: 200px; }
+      .timeline::before { left: 20px; }
+      .timeline-item, .timeline-item:nth-child(even) { width: 100%; margin-left: 0; padding-left: 50px; justify-content: flex-start; }
+      .timeline-item:nth-child(odd) .timeline-dot, .timeline-item:nth-child(even) .timeline-dot { left: 13px; top: 20px; }
+      .timeline-content { width: 100%; }
+      .quote-section blockquote { font-size: 1.4rem; }
+    }
+    @media (max-width: 768px) {
+      section { padding: 3.5rem 1rem; }
+      nav { padding: 0.8rem 1rem; gap: 0.3rem; }
+      nav.scrolled { padding: 0.6rem 1rem; }
+      .nav-logo { font-size: 1.1rem; }
+      .nav-links {
+        display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
+        flex-direction: column; justify-content: center; align-items: center;
+        background: rgba(11,16,38,0.96); backdrop-filter: blur(30px);
+        gap: 2rem; z-index: 99; margin: 0; padding: 2rem;
+      }
+      .nav-links.mobile-open { display: flex; }
+      .nav-links a { font-size: 1.2rem; }
+      .lang-dropdown { right: auto; left: 0; min-width: 150px; }
+      .lang-option { font-size: 0.7rem; padding: 0.4rem 0.6rem; }
+      .lang-current { font-size: 0.7rem; padding: 0.3rem 0.6rem; }
+      .hamburger { display: flex; margin-left: auto; }
+      .hero-name { font-size: clamp(2rem, 7vw, 2.8rem); }
+      .hero-subtitle { font-size: clamp(0.85rem, 3vw, 0.95rem); }
+      .hero-desc { font-size: clamp(0.85rem, 2.5vw, 0.9rem); }
+      .hero-greeting { font-size: 0.8rem; letter-spacing: 2px; }
+      .hero-image-frame { width: min(260px, 70vw); height: min(260px, 70vw); }
+      .hero-scroll-indicator { bottom: 1rem; }
+      .section-header { margin-bottom: 2.5rem; }
+      .section-header h2 { font-size: clamp(1.5rem, 5vw, 2rem); }
+      .section-header p { font-size: 0.85rem; }
+      .about-text h3 { font-size: 1.4rem; }
+      .about-text p { font-size: 0.85rem; }
+      .about-stats { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+      .stat-card { padding: 1rem 0.8rem; }
+      .stat-number { font-size: 1.5rem; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+      .skill-card { padding: 1.2rem 1rem; }
+      .skill-icon { font-size: 2rem; }
+      .projects-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+      .portfolio-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+      .testimonial-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .testimonial-card { padding: 1.5rem 1.2rem; }
+      .quote-section blockquote { font-size: 1.2rem; padding: 0 1rem; }
+      .quote-section blockquote::before { left: 0.5rem; font-size: 2rem; }
+      .contact-grid { gap: 1.5rem; }
+      .contact-form { gap: 1rem; }
+      .contact-form input, .contact-form textarea { padding: 0 1rem; font-size: 0.85rem; height: 48px; }
+      .contact-form textarea { padding: 0.8rem 1rem; height: 120px; }
+      .contact-submit { padding: 0.75rem 1.5rem; font-size: 0.85rem; min-width: 170px; }
+      .contact-info-col { flex-direction: column; }
+      .contact-card { padding: 1rem 1.2rem; gap: 1rem; }
+      .contact-card-icon { width: 42px; height: 42px; font-size: 1.1rem; border-radius: 12px; }
+      .contact-card-body h4 { font-size: 0.82rem; }
+      .contact-card-body p { font-size: 0.75rem; }
+      .contact-card-btn { padding: 0.35rem 0.8rem; font-size: 0.7rem; }
+      footer { padding: 2rem 1rem; }
+      footer .social-links { gap: 1rem; }
+      footer .social-links a { width: 36px; height: 36px; font-size: 0.9rem; }
+      footer p { font-size: 0.75rem; }
+      #back-to-top { bottom: 1rem; right: 1rem; width: 36px; height: 36px; font-size: 1rem; }
+      .music-player { bottom: 1rem; left: 1rem; padding: 6px 12px 6px 6px; gap: 6px; }
+      .music-player.hidden { transform: translateX(-120%); }
+      .music-btn { width: 30px; height: 30px; font-size: 0.8rem; }
+      .music-title { font-size: 0.65rem; }
+      .music-artist { font-size: 0.55rem; }
+      .music-bar { width: 35px; }
+      .music-toggle-vis { bottom: 1rem; left: 1rem; width: 30px; height: 30px; font-size: 0.8rem; }
+    }
+    @media (max-width: 480px) {
+      .hero-name { font-size: clamp(1.6rem, 8vw, 2.2rem); }
+      .hero-image-frame { width: min(200px, 65vw); height: min(200px, 65vw); }
+      .hero-subtitle { font-size: 0.8rem; }
+      .hero-greeting { font-size: 0.7rem; letter-spacing: 1px; }
+      .hero-greeting .greeting-line { width: 24px; }
+      .hero-btns { flex-direction: column; align-items: center; gap: 0.8rem; }
+      .hero-btns .btn-primary, .hero-btns .btn-secondary { width: 100%; max-width: 260px; justify-content: center; padding: 0.8rem 1.5rem; font-size: 0.85rem; }
+      section { padding: 3rem 0.8rem; }
+      .section-header h2 { font-size: 1.5rem; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+      .skill-card { padding: 1rem 0.8rem; }
+      .skill-card h4 { font-size: 0.85rem; }
+      .about-stats { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
+      .portfolio-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .projects-grid { gap: 1rem; }
+      .project-thumb { height: 160px; font-size: 2rem; }
+      .project-body { padding: 1rem; }
+      .timeline-content { padding: 1rem; }
+      .quote-section blockquote { font-size: 1rem; }
+      .contact-card { padding: 0.9rem 1rem; gap: 0.8rem; flex-wrap: wrap; }
+      .contact-card-icon { width: 38px; height: 38px; font-size: 1rem; }
+      .contact-card-btn { padding: 0.3rem 0.7rem; font-size: 0.65rem; }
+    }
+    @media (max-width: 360px) {
+      .hero-name { font-size: 1.4rem; }
+      .hero-image-frame { width: 150px; height: 150px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      .hero-image-frame { animation: none; }
+    }
+    @media (hover: none) and (pointer: coarse) {
+      .skill-card:hover, .project-card:hover, .testimonial-card:hover,
+      .stat-card:hover, .portfolio-item:hover, .timeline-content:hover,
+      .btn-primary:hover, .btn-secondary:hover,
+      .contact-card:hover, .contact-submit:hover, .contact-card-btn:hover { transform: none !important; }
+      .hero-image-frame { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== TAP TO ENTER OVERLAY ===== -->
+<div id="tap-overlay">
+  <div class="tap-icon"><i class="fas fa-headphones-alt"></i></div>
+  <div class="tap-logo">Fachrel Amrillah</div>
+  <div class="tap-hint">TAP ANYWHERE TO ENTER</div>
+</div>
+
+<!-- ===== BACKGROUND CANVAS ===== -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Fachrel Amrillah</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#hero" data-i18n="navHome">Home</a></li>
+    <li><a href="#about" data-i18n="navAbout">About</a></li>
+    <li><a href="#skills" data-i18n="navSkills">Skills</a></li>
+    <li><a href="#projects" data-i18n="navProjects">Projects</a></li>
+    <li><a href="#portfolio" data-i18n="navPortfolio">Portfolio</a></li>
+    <li><a href="#contact" data-i18n="navContact">Contact</a></li>
+  </ul>
+  <div class="lang-selector" id="langSelector">
+    <div class="lang-current" id="langCurrent"><span class="flag" id="langFlag">🇮🇩</span> ID <i class="fas fa-chevron-down"></i></div>
+    <div class="lang-dropdown" id="langDropdown"></div>
+  </div>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="hero-greeting reveal-left"><span class="greeting-line"></span> <span data-i18n="heroGreeting">WELCOME TO MY WORLD</span></div>
+      <h1 class="hero-name reveal-left" style="transition-delay:0.1s" data-i18n="heroName">
+        HALO, SAYA <span class="highlight">Fachrel Amrillah</span>
+      </h1>
+      <div class="hero-subtitle reveal-left" style="transition-delay:0.2s">
+        <span id="typing-text"></span><span class="typing-cursor"></span>
+      </div>
+      <p class="hero-desc reveal-left" style="transition-delay:0.3s" data-i18n="heroDesc">
+        Crafting digital experiences that blend creativity with cutting-edge technology.
+        Passionate about building beautiful, functional, and impactful web solutions.
+      </p>
+      <div class="hero-btns reveal-left" style="transition-delay:0.4s">
+        <a href="#projects" class="btn-primary" data-i18n="heroExplore"><i class="fas fa-rocket"></i> Explore Portfolio</a>
+        <a href="#" class="btn-secondary" onclick="alert(t('alertDownloadCV')); return false;" data-i18n="heroDownload"><i class="fas fa-download"></i> Download CV</a>
+      </div>
+    </div>
+    <div class="hero-image-wrap reveal-right" style="transition-delay:0.3s">
+      <div class="hero-glow-1"></div>
+      <div class="hero-glow-2"></div>
+      <div class="hero-image-frame">
+        <img src="img/IMG-20250508-WA0149.jpg" alt="Fachrel Amrillah">
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator">
+    <span data-i18n="scroll">SCROLL</span>
+    <i class="fas fa-chevron-down"></i>
+  </div>
+</section>
+
+<!-- ===== QUOTE SECTION ===== -->
+<div class="quote-section">
+  <blockquote class="reveal" data-i18n="quote">
+    Code is like poetry — it should be clean, elegant, and meaningful
+    <cite>&mdash; Fachrel Amrillah</cite>
+  </blockquote>
+</div>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+  <div class="section-header reveal">
+    <div class="section-tag"><span class="tag-line"></span> <span data-i18n="aboutTitle">Tentang Saya</span></div>
+    <h2 data-i18n="aboutHeading2">Kenali Saya</h2>
+    <p data-i18n="aboutSub">Kenali perjalanan belajar, minat, dan kemampuan saya.</p>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal-left">
+      <h3 data-i18n="aboutHeading">Pelajar SMK &amp; Creative Learner</h3>
+      <p data-i18n="aboutP1">
+        Saya adalah seorang pelajar SMK yang memiliki minat di bidang teknologi, desain, dan pengembangan website. Saya senang mempelajari hal-hal baru, membuat desain yang menarik, dan mencoba membangun project kreatif untuk menambah pengalaman dan kemampuan saya.
+      </p>
+      <p data-i18n="aboutP2">
+        Saat ini saya terus belajar mengembangkan skill dalam pembuatan website, desain UI/UX, editing, dan berbagai hal yang berhubungan dengan dunia digital. Saya suka mengeksplorasi ide baru dan membuat sesuatu yang menarik serta bermanfaat.
+      </p>
+    </div>
+    <div class="reveal-right">
+      <div class="about-stats">
+        <div class="stat-card">
+          <i class="fas fa-code stat-icon"></i>
+          <div class="stat-number"><span class="counter" data-target="10">0</span>+</div>
+          <div class="stat-label" data-i18n="statProject">Project Pembelajaran</div>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-clock stat-icon"></i>
+          <div class="stat-number"><span class="counter" data-target="2">0</span>+</div>
+          <div class="stat-label" data-i18n="statYear">Tahun Belajar</div>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-fire stat-icon"></i>
+          <div class="stat-number"><span class="counter" data-target="100">0</span>%</div>
+          <div class="stat-label" data-i18n="statSkill">Semangat Belajar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SKILLS ===== -->
+<section id="skills">
+  <div class="section-header reveal">
+    <div class="section-tag"><span class="tag-line"></span> <span data-i18n="skillsTitle">My Skills</span></div>
+    <h2 data-i18n="skillsHeading">Technologies &amp; Tools</h2>
+    <p data-i18n="skillsSub">Technologies &amp; tools I work with</p>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card reveal-scale"><div class="skill-icon"><i class="fab fa-html5"></i></div><h4>HTML</h4><div class="skill-bar-wrap"><div class="skill-bar" data-target="95%" style="--target:95%"></div></div><div class="skill-percent">95%</div></div>
+    <div class="skill-card reveal-scale"><div class="skill-icon"><i class="fab fa-css3-alt"></i></div><h4>CSS</h4><div class="skill-bar-wrap"><div class="skill-bar" data-target="90%" style="--target:90%"></div></div><div class="skill-percent">90%</div></div>
+    <div class="skill-card reveal-scale"><div class="skill-icon"><i class="fab fa-js"></i></div><h4>JavaScript</h4><div class="skill-bar-wrap"><div class="skill-bar" data-target="85%" style="--target:85%"></div></div><div class="skill-percent">85%</div></div>
+    <div class="skill-card reveal-scale"><div class="skill-icon"><i class="fab fa-php"></i></div><h4>PHP</h4><div class="skill-bar-wrap"><div class="skill-bar" data-target="80%" style="--target:80%"></div></div><div class="skill-percent">80%</div></div>
+    <div class="skill-card reveal-scale"><div class="skill-icon"><i class="fas fa-database"></i></div><h4>MySQL</h4><div class="skill-bar-wrap"><div class="skill-bar" data-target="75%" style="--target:75%"></div></div><div class="skill-percent">75%</div></div>
+    <div class="skill-card reveal-scale"><div class="skill-icon"><i class="fab fa-figma"></i></div><h4>Figma</h4><div class="skill-bar-wrap"><div class="skill-bar" data-target="88%" style="--target:88%"></div></div><div class="skill-percent">88%</div></div>
+    <div class="skill-card reveal-scale"><div class="skill-icon"><i class="fas fa-paint-brush"></i></div><h4>Photoshop</h4><div class="skill-bar-wrap"><div class="skill-bar" data-target="67%" style="--target:67%"></div></div><div class="skill-percent">67%</div></div>
+    <div class="skill-card reveal-scale"><div class="skill-icon"><i class="fas fa-pencil-ruler"></i></div><h4>UI/UX</h4><div class="skill-bar-wrap"><div class="skill-bar" data-target="85%" style="--target:85%"></div></div><div class="skill-percent">85%</div></div>
+  </div>
+</section>
+
+<!-- ===== PROJECTS ===== -->
+<section id="projects">
+  <div class="section-header reveal">
+    <div class="section-tag"><span class="tag-line"></span> <span data-i18n="projectsTitle">Proyek Saya</span></div>
+    <h2 data-i18n="projectsHeading">Karya &amp; Pembelajaran</h2>
+    <p data-i18n="projectsSub">Beberapa project yang saya buat untuk belajar dan mengembangkan kemampuan.</p>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card reveal-scale">
+      <div class="project-thumb">
+        <img src="img/portofolio.jpg" alt="Website Portfolio" loading="lazy">
+      </div>
+      <div class="project-body">
+        <h4>Website Portfolio Pribadi</h4>
+        <p>Website portfolio modern dengan desain premium, animasi interaktif, dan tampilan responsif.</p>
+        <div class="project-tech"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+        <div class="project-links">
+          <a href="#" class="btn-preview"><i class="fas fa-external-link-alt"></i> Preview</a>
+          <a href="#" class="btn-detail"><i class="fas fa-info-circle"></i> Detail</a>
+        </div>
+      </div>
+    </div>
+    <div class="project-card reveal-scale">
+      <div class="project-thumb">
+        <img src="img/vd.jpg" alt="Roblox Community" loading="lazy">
+      </div>
+      <div class="project-body">
+        <h4>Website Komunitas Roblox</h4>
+        <p>Website komunitas game Roblox dengan sistem karakter, animasi, Discord, dan desain gaming modern.</p>
+        <div class="project-tech"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>PHP</span></div>
+        <div class="project-links">
+          <a href="#" class="btn-preview"><i class="fas fa-external-link-alt"></i> Preview</a>
+          <a href="#" class="btn-detail"><i class="fas fa-info-circle"></i> Detail</a>
+        </div>
+      </div>
+    </div>
+    <div class="project-card reveal-scale">
+      <div class="project-thumb">
+        <img src="img/kck.png" alt="UI/UX Design" loading="lazy">
+      </div>
+      <div class="project-body">
+        <h4>UI/UX Design Project</h4>
+        <p>Desain antarmuka aplikasi dan website menggunakan tampilan modern dan mudah digunakan.</p>
+        <div class="project-tech"><span>Figma</span><span>Photoshop</span><span>UI/UX</span></div>
+        <div class="project-links">
+          <a href="#" class="btn-preview"><i class="fas fa-external-link-alt"></i> Preview</a>
+          <a href="#" class="btn-detail"><i class="fas fa-info-circle"></i> Detail</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PORTFOLIO ===== -->
+<section id="portfolio">
+  <div class="section-header reveal">
+    <div class="section-tag"><span class="tag-line"></span> <span data-i18n="portTitle">Portfolio</span></div>
+    <h2 data-i18n="portHeading">Portfolio Gallery</h2>
+    <p data-i18n="portSub">A showcase of my creative work</p>
+    <div class="section-line"></div>
+  </div>
+  <div class="filter-btns reveal">
+    <button class="filter-btn active" data-filter="all" data-i18n="all">All</button>
+    <button class="filter-btn" data-filter="web" data-i18n="web">Web</button>
+    <button class="filter-btn" data-filter="design" data-i18n="design">Design</button>
+    <button class="filter-btn" data-filter="branding" data-i18n="branding">Branding</button>
+  </div>
+  <div class="portfolio-grid">
+    <div class="portfolio-item reveal-scale" data-category="web">
+      <img src="img/web.jpg" alt="Web Project" loading="lazy">
+      <div class="overlay"><i class="fas fa-expand"></i></div>
+    </div>
+    <div class="portfolio-item reveal-scale" data-category="design">
+      <img src="img/freya.jpg" alt="Freya Design" loading="lazy">
+      <div class="overlay"><i class="fas fa-expand"></i></div>
+    </div>
+    <div class="portfolio-item reveal-scale" data-category="design">
+      <img src="img/ler.png" alt="Ler Design" loading="lazy">
+      <div class="overlay"><i class="fas fa-expand"></i></div>
+    </div>
+    <div class="portfolio-item reveal-scale" data-category="branding">
+      <img src="img/es.jpg" alt="ES Project" loading="lazy">
+      <div class="overlay"><i class="fas fa-expand"></i></div>
+    </div>
+    <div class="portfolio-item reveal-scale" data-category="branding">
+      <img src="img/Sprite.jpg" alt="Sprite Art" loading="lazy">
+      <div class="overlay"><i class="fas fa-expand"></i></div>
+    </div>
+    <div class="portfolio-item reveal-scale" data-category="web">
+      <img src="img/portofolio.jpg" alt="Portfolio Project" loading="lazy">
+      <div class="overlay"><i class="fas fa-expand"></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXPERIENCE TIMELINE ===== -->
+<section id="experience">
+  <div class="section-header reveal">
+    <div class="section-tag"><span class="tag-line"></span> <span data-i18n="expTitle">Pengalaman</span></div>
+    <h2 data-i18n="expHeading">Perjalanan Saya</h2>
+    <p data-i18n="expSub">Perjalanan belajar dan perkembangan kemampuan saya.</p>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item reveal-left">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-icon"><i class="fas fa-code"></i></div>
+        <span class="date">2026 - Sekarang</span>
+        <h4>Belajar Web Development</h4>
+        <p>Sedang mempelajari pembuatan website modern menggunakan HTML, CSS, JavaScript, PHP, dan berbagai teknologi lainnya.</p>
+      </div>
+    </div>
+    <div class="timeline-item reveal-right">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-icon"><i class="fas fa-rocket"></i></div>
+        <span class="date">2024 - 2025</span>
+        <h4>Membuat Project Pribadi</h4>
+        <p>Membuat berbagai project latihan seperti website portfolio, landing page, desain UI, dan project kreatif lainnya untuk menambah pengalaman.</p>
+      </div>
+    </div>
+    <div class="timeline-item reveal-left">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-icon"><i class="fas fa-palette"></i></div>
+        <span class="date">2023 - 2024</span>
+        <h4>Belajar Desain &amp; Editing</h4>
+        <p>Mulai mempelajari desain, editing, dan cara membuat tampilan visual yang menarik.</p>
+      </div>
+    </div>
+    <div class="timeline-item reveal-right">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-icon"><i class="fas fa-laptop"></i></div>
+        <span class="date">2022 - 2023</span>
+        <h4>Awal Mengenal Teknologi</h4>
+        <p>Mulai tertarik dengan dunia teknologi, komputer, dan mencoba mempelajari hal-hal baru.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section id="testimonials">
+  <div class="section-header reveal">
+    <div class="section-tag"><span class="tag-line"></span> <span data-i18n="testTitle">Testimonial</span></div>
+    <h2 data-i18n="testHeading">Kata Mereka</h2>
+    <p data-i18n="testSub">Beberapa pendapat dari teman dan orang di sekitar saya.</p>
+    <div class="section-line"></div>
+  </div>
+  <div class="testimonial-grid">
+    <div class="testimonial-card reveal-scale">
+      <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+      <p>"Fachrel orangnya kreatif dan selalu semangat belajar hal baru. Saat membuat project, dia selalu berusaha memberikan hasil yang terbaik."</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">F</div>
+        <div><strong>F</strong><small>Teman Sekelas</small></div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal-scale">
+      <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+      <p>"Saya melihat perkembangan Fachrel cukup baik dalam bidang teknologi dan desain. Dia memiliki rasa ingin tahu yang tinggi."</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">G</div>
+        <div><strong>G</strong><small>Guru</small></div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal-scale">
+      <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+      <p>"Desain dan project yang dibuat terlihat menarik dan terus berkembang dari waktu ke waktu."</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">K</div>
+        <div><strong>K</strong><small>Teman Project</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+  <div class="section-header reveal">
+    <div class="section-tag"><span class="tag-line"></span> <span data-i18n="contactTitle">Contact</span></div>
+    <h2 data-i18n="contactHeading">Get In Touch</h2>
+    <p data-i18n="contactSub">Let's work together on your next project</p>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-wrapper">
+    <div class="contact-grid">
+      <div class="contact-form-col reveal-left">
+        <form class="contact-form" id="contactForm" novalidate>
+          <div class="input-group">
+            <input type="text" id="contactName" data-i18n="contactName" placeholder="Nama Lengkap" required autocomplete="name">
+            <span class="form-error" id="nameError"></span>
+          </div>
+          <div class="input-group">
+            <input type="email" id="contactEmail" data-i18n="contactEmail" placeholder="Email" required autocomplete="email">
+            <span class="form-error" id="emailError"></span>
+          </div>
+          <div class="input-group">
+            <input type="text" id="contactSubject" data-i18n="contactSubject" placeholder="Subjek" autocomplete="off">
+          </div>
+          <div class="input-group">
+            <textarea id="contactMessage" data-i18n="contactMsg" placeholder="Pesan Anda..." required></textarea>
+            <span class="form-error" id="messageError"></span>
+          </div>
+          <input type="text" id="website" name="website" style="display:none" tabindex="-1" autocomplete="off">
+          <button type="submit" class="contact-submit" id="contactSubmit">
+            <span class="btn-text"><i class="fas fa-paper-plane"></i> <span data-i18n="contactSend">Kirim Pesan</span></span>
+            <span class="btn-loading"><i class="fas fa-spinner fa-spin"></i> Mengirim...</span>
+          </button>
+        </form>
+      </div>
+      <div class="contact-info-col reveal-right">
+        <a href="https://wa.me/6289653582154" target="_blank" class="contact-card">
+          <div class="contact-card-icon"><i class="fab fa-whatsapp"></i></div>
+          <div class="contact-card-body">
+            <h4 data-i18n="socialWA">WhatsApp</h4>
+            <p>+62 896-5358-2154</p>
+          </div>
+          <span class="contact-card-btn"><span data-i18n="visit">Kunjungi</span> <i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a href="https://instagram.com/abcfarell" target="_blank" class="contact-card">
+          <div class="contact-card-icon"><i class="fab fa-instagram"></i></div>
+          <div class="contact-card-body">
+            <h4 data-i18n="socialIG">Instagram</h4>
+            <p>@abcfarell</p>
+          </div>
+          <span class="contact-card-btn"><span data-i18n="visit">Kunjungi</span> <i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a href="https://tiktok.com/@abcparell" target="_blank" class="contact-card">
+          <div class="contact-card-icon"><i class="fab fa-tiktok"></i></div>
+          <div class="contact-card-body">
+            <h4 data-i18n="socialTT">TikTok</h4>
+            <p>@abcparell</p>
+          </div>
+          <span class="contact-card-btn"><span data-i18n="visit">Kunjungi</span> <i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a href="https://github.com/abcfarell" target="_blank" class="contact-card">
+          <div class="contact-card-icon"><i class="fab fa-github"></i></div>
+          <div class="contact-card-body">
+            <h4 data-i18n="socialGH">GitHub</h4>
+            <p>github.com/abcfarell</p>
+          </div>
+          <span class="contact-card-btn"><span data-i18n="visit">Kunjungi</span> <i class="fas fa-arrow-right"></i></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="social-links reveal">
+    <a href="https://instagram.com/abcfarell" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://tiktok.com/@abcparell" target="_blank"><i class="fab fa-tiktok"></i></a>
+    <a href="https://github.com/abcfarell" target="_blank"><i class="fab fa-github"></i></a>
+    <a href="https://wa.me/6289653582154" target="_blank"><i class="fab fa-whatsapp"></i></a>
+  </div>
+  <p data-i18n="footer">&copy; 2026 Fachrel Amrillah. All Rights Reserved. Made with <span style="color:#FF5DA2">&hearts;</span></p>
+</footer>
+
+<!-- ===== BACK TO TOP ===== -->
+<button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- ===== MUSIC PLAYER ===== -->
+<audio id="bgMusic" loop>
+  <source src="assets/music/background.mp3" type="audio/mpeg">
+</audio>
+<div class="music-player" id="musicPlayer" title="Background Music">
+  <button class="music-btn" id="musicToggle"><i class="fas fa-play"></i></button>
+  <div class="music-info">
+    <span class="music-title">Background Music</span>
+    <span class="music-artist">Portfolio</span>
+  </div>
+  <div class="music-bar paused" id="musicBar"><span></span><span></span><span></span><span></span></div>
+</div>
+<button class="music-toggle-vis" id="musicToggleVis" title="Show Music Player"><i class="fas fa-music"></i></button>
+
+<!-- ===== LIGHTBOX ===== -->
+<div id="lightbox" onclick="this.classList.remove('show')">
+  <span class="close-lb">&times;</span>
+  <div id="lb-content"><div style="color:#00E5FF;font-size:3rem"><i class="fas fa-image"></i></div></div>
+</div>
+
+<script>
+// ===== TAP TO ENTER =====
+const tapOverlay = document.getElementById('tap-overlay');
+let audioCtx, analyser, src;
+
+function initAudio() {
+  const music = document.getElementById('bgMusic');
+  music.play().then(() => {
+    musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+    musicBar.classList.remove('paused');
+    musicPlaying = true;
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      analyser = audioCtx.createAnalyser();
+      src = audioCtx.createMediaElementSource(music);
+      src.connect(analyser);
+      analyser.connect(audioCtx.destination);
+    }
+  }).catch(() => {});
+}
+
+tapOverlay.addEventListener('click', () => {
+  tapOverlay.classList.add('hidden');
+  document.body.style.overflow = '';
+  setTimeout(() => { tapOverlay.style.display = 'none'; }, 800);
+  initAudio();
+  setTimeout(() => {
+    initBgCanvas();
+    initTyping();
+    initScrollReveal();
+    initCounters();
+    initSkillBars();
+    initFilter();
+    initLightbox();
+  }, 100);
+});
+
+// ===== BACKGROUND CANVAS =====
+function initBgCanvas() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  let stars = [], particles = [], orbs = [], lines = [];
+  let mouseX = -1000, mouseY = -1000;
+  let cursorParticles = [];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  for (let i = 0; i < 200; i++) {
+    stars.push({
+      x: Math.random() * W, y: Math.random() * H,
+      r: Math.random() * 1.5 + 0.3,
+      speed: Math.random() * 0.5 + 0.1,
+      opacity: Math.random() * 0.8 + 0.2
+    });
+  }
+
+  for (let i = 0; i < 60; i++) {
+    particles.push({
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4,
+      r: Math.random() * 2 + 0.5,
+      life: Math.random() * 200 + 100,
+      maxLife: Math.random() * 200 + 100,
+      color: Math.random() > 0.5 ? '0,229,255' : '255,93,162'
+    });
+  }
+
+  for (let i = 0; i < 4; i++) {
+    orbs.push({
+      x: Math.random() * W, y: Math.random() * H,
+      r: Math.random() * 120 + 60,
+      vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25,
+      color: i % 2 === 0 ? '0,229,255' : '255,93,162'
+    });
+  }
+
+  for (let i = 0; i < 3; i++) {
+    lines.push({
+      y: Math.random() * H, speed: (Math.random() - 0.5) * 0.4 + 0.3,
+      length: Math.random() * 200 + 100, opacity: Math.random() * 0.08 + 0.02
+    });
+  }
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursorParticles.push({
+      x: mouseX + (Math.random() - 0.5) * 20,
+      y: mouseY + (Math.random() - 0.5) * 20,
+      vx: (Math.random() - 0.5) * 2, vy: (Math.random() - 0.5) * 2 - 1,
+      life: 1, r: Math.random() * 3 + 1
+    });
+    if (cursorParticles.length > 50) cursorParticles.shift();
+  });
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    for (const s of stars) {
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,' + s.opacity + ')';
+      ctx.fill();
+      s.y -= s.speed;
+      if (s.y < -10) { s.y = H + 10; s.x = Math.random() * W; }
+    }
+
+    for (const l of lines) {
+      const gradient = ctx.createLinearGradient(0, l.y, W, l.y);
+      gradient.addColorStop(0, 'transparent');
+      gradient.addColorStop(0.5, 'rgba(0,229,255,' + l.opacity + ')');
+      gradient.addColorStop(1, 'transparent');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, l.y, W, 1);
+      l.y += l.speed;
+      if (l.y > H + 10) { l.y = -10; l.speed = (Math.random() - 0.5) * 0.4 + 0.3; }
+    }
+
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + p.color + ',' + (p.life / p.maxLife * 0.6) + ')';
+      ctx.fill();
+      p.x += p.vx; p.y += p.vy;
+      p.life--;
+      if (p.life <= 0 || p.x < -10 || p.x > W + 10 || p.y < -10 || p.y > H + 10) {
+        p.x = Math.random() * W; p.y = Math.random() * H;
+        p.life = p.maxLife;
+      }
+    }
+
+    for (const o of orbs) {
+      const gradient = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
+      gradient.addColorStop(0, 'rgba(' + o.color + ',0.06)');
+      gradient.addColorStop(0.5, 'rgba(' + o.color + ',0.03)');
+      gradient.addColorStop(1, 'transparent');
+      ctx.fillStyle = gradient;
+      ctx.beginPath(); ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2);
+      ctx.fill();
+      o.x += o.vx; o.y += o.vy;
+      if (o.x < 0 || o.x > W) o.vx *= -1;
+      if (o.y < 0 || o.y > H) o.vy *= -1;
+    }
+
+    for (const p of cursorParticles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0,229,255,' + (p.life * 0.4) + ')';
+      ctx.fill();
+      p.x += p.vx; p.y += p.vy;
+      p.life -= 0.02;
+      if (p.life <= 0) cursorParticles.splice(p, 1);
+    }
+
+    const cursorGlow = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 150);
+    cursorGlow.addColorStop(0, 'rgba(0,229,255,0.04)');
+    cursorGlow.addColorStop(1, 'transparent');
+    ctx.fillStyle = cursorGlow;
+    ctx.beginPath(); ctx.arc(mouseX, mouseY, 150, 0, Math.PI * 2);
+    ctx.fill();
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ===== TYPING =====
+function initTyping() {
+  const words = ['Creative Developer', 'UI Designer', 'Content Creator', 'Digital Artist'];
+  let wordIndex = 0, charIndex = 0, isDeleting = false;
+  const el = document.getElementById('typing-text');
+
+  function type() {
+    const current = words[wordIndex];
+    if (isDeleting) {
+      el.textContent = current.substring(0, charIndex - 1);
+      charIndex--;
+    } else {
+      el.textContent = current.substring(0, charIndex + 1);
+      charIndex++;
+    }
+    if (!isDeleting && charIndex === current.length) {
+      setTimeout(() => { isDeleting = true; type(); }, 2000);
+      return;
+    }
+    if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      wordIndex = (wordIndex + 1) % words.length;
+      setTimeout(type, 500);
+      return;
+    }
+    setTimeout(type, isDeleting ? 50 : 100);
+  }
+  type();
+}
+
+// ===== SCROLL REVEAL =====
+function initScrollReveal() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => observer.observe(el));
+}
+
+// ===== COUNTERS =====
+function initCounters() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.dataset.target);
+        let current = 0;
+        const increment = Math.ceil(target / 40);
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) { current = target; clearInterval(timer); }
+          el.textContent = current;
+        }, 40);
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.counter').forEach(el => observer.observe(el));
+}
+
+// ===== SKILL BARS =====
+function initSkillBars() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animated');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.skill-bar').forEach(el => observer.observe(el));
+}
+
+// ===== FILTER =====
+function initFilter() {
+  const btns = document.querySelectorAll('.filter-btn');
+  const items = document.querySelectorAll('.portfolio-item');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      items.forEach(item => {
+        if (filter === 'all' || item.dataset.category === filter) {
+          item.style.display = 'block';
+          item.style.animation = 'none';
+          setTimeout(() => { item.style.animation = ''; }, 10);
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+}
+
+// ===== LIGHTBOX =====
+function initLightbox() {
+  document.querySelectorAll('.portfolio-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const lb = document.getElementById('lightbox');
+      const img = item.querySelector('img');
+      const lbContent = document.getElementById('lb-content');
+      if (img) {
+        lbContent.innerHTML = '<img src="' + img.src + '" alt="' + img.alt + '">';
+      } else {
+        const icon = item.querySelector('.p-icon i');
+        if (icon) lbContent.innerHTML = '<div style="color:#00E5FF;font-size:3rem">' + icon.outerHTML + '</div>';
+      }
+      lb.classList.add('show');
+    });
+  });
+}
+
+// ===== HAMBURGER =====
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('hamburger').classList.toggle('active');
+  document.getElementById('nav-links').classList.toggle('mobile-open');
+  document.body.classList.toggle('no-scroll');
+});
+
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('hamburger').classList.remove('active');
+    document.getElementById('nav-links').classList.remove('mobile-open');
+    document.body.classList.remove('no-scroll');
+  });
+});
+
+// ===== NAVBAR SCROLL =====
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  const btt = document.getElementById('back-to-top');
+  if (window.scrollY > 50) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+  if (window.scrollY > 400) btt.classList.add('show');
+  else btt.classList.remove('show');
+});
+
+// ===== PARALLAX HERO =====
+window.addEventListener('scroll', () => {
+  const scroll = window.scrollY;
+  const hero = document.getElementById('hero');
+  if (hero && scroll < 800) {
+    hero.style.opacity = Math.max(0, 1 - scroll / 600);
+  }
+});
+
+// ===== MUSIC PLAYER CONTROLS =====
+const music = document.getElementById('bgMusic');
+const musicToggle = document.getElementById('musicToggle');
+const musicPlayer = document.getElementById('musicPlayer');
+const musicBar = document.getElementById('musicBar');
+const musicToggleVis = document.getElementById('musicToggleVis');
+let musicPlaying = false;
+
+musicToggle.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (musicPlaying) {
+    music.pause();
+    musicToggle.innerHTML = '<i class="fas fa-play"></i>';
+    musicBar.classList.add('paused');
+  } else {
+    music.play().catch(() => {});
+    musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+    musicBar.classList.remove('paused');
+  }
+  musicPlaying = !musicPlaying;
+});
+
+musicPlayer.addEventListener('click', (e) => {
+  if (e.target === musicPlayer) musicToggle.click();
+});
+
+music.addEventListener('ended', () => {
+  musicPlaying = false;
+  musicToggle.innerHTML = '<i class="fas fa-play"></i>';
+  musicBar.classList.add('paused');
+});
+
+// Hide/show music player
+musicToggleVis.addEventListener('click', () => {
+  musicPlayer.classList.toggle('hidden');
+  musicToggleVis.classList.toggle('show');
+  if (!musicPlayer.classList.contains('hidden')) {
+    musicToggleVis.classList.remove('show');
+  } else {
+    musicToggleVis.classList.add('show');
+  }
+});
+
+// Show toggle button when player is hidden
+if (musicPlayer.classList.contains('hidden')) {
+  musicToggleVis.classList.add('show');
+}
+
+// ===== CONTACT FORM =====
+const contactForm = document.getElementById('contactForm');
+const submitBtn = document.getElementById('contactSubmit');
+const toast = document.getElementById('contactToast');
+let isSubmitting = false;
+
+function showToast(msg, type) {
+  toast.textContent = msg;
+  toast.className = 'contact-toast ' + type + ' show';
+  clearTimeout(toast._hide);
+  toast._hide = setTimeout(() => { toast.classList.remove('show'); }, 4000);
+}
+
+function validateField(id, errorId, check) {
+  const el = document.getElementById(id);
+  const err = document.getElementById(errorId);
+  const group = el.closest('.input-group');
+  const result = check(el.value);
+  if (result !== true) {
+    err.textContent = result;
+    err.classList.add('show');
+    group.classList.add('error');
+    return false;
+  }
+  err.classList.remove('show');
+  group.classList.remove('error');
+  return true;
+}
+
+contactForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (isSubmitting) return;
+
+  const validName = validateField('contactName', 'nameError', (v) => {
+    if (!v.trim()) return 'Nama wajib diisi';
+    return true;
+  });
+  const validEmail = validateField('contactEmail', 'emailError', (v) => {
+    if (!v.trim()) return 'Email wajib diisi';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return 'Format email tidak valid';
+    return true;
+  });
+  const validMsg = validateField('contactMessage', 'messageError', (v) => {
+    if (!v.trim()) return 'Pesan tidak boleh kosong';
+    return true;
+  });
+
+  if (!validName || !validEmail || !validMsg) return;
+
+  isSubmitting = true;
+  submitBtn.classList.add('loading');
+
+  try {
+    const res = await fetch('sendmail.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: document.getElementById('contactName').value.trim(),
+        email: document.getElementById('contactEmail').value.trim(),
+        subject: document.getElementById('contactSubject').value.trim(),
+        message: document.getElementById('contactMessage').value.trim(),
+        website: document.getElementById('website').value
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(data.message, 'success');
+      contactForm.reset();
+      document.querySelectorAll('.form-error').forEach(e => e.classList.remove('show'));
+      document.querySelectorAll('.input-group').forEach(g => g.classList.remove('error'));
+    } else {
+      showToast(data.message, 'error');
+    }
+  } catch (err) {
+    showToast('Gagal mengirim pesan ❌. Periksa koneksi internet.', 'error');
+  } finally {
+    isSubmitting = false;
+    submitBtn.classList.remove('loading');
+  }
+});
+
+// Real-time validation on input
+document.getElementById('contactName').addEventListener('input', () => {
+  validateField('contactName', 'nameError', (v) => {
+    if (!v.trim()) return 'Nama wajib diisi';
+    return true;
+  });
+});
+document.getElementById('contactEmail').addEventListener('input', () => {
+  validateField('contactEmail', 'emailError', (v) => {
+    if (!v.trim()) return 'Email wajib diisi';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return 'Format email tidak valid';
+    return true;
+  });
+});
+document.getElementById('contactMessage').addEventListener('input', () => {
+  validateField('contactMessage', 'messageError', (v) => {
+    if (!v.trim()) return 'Pesan tidak boleh kosong';
+    return true;
+  });
+});
+
+// ===== TRANSLATIONS =====
+const LANGUAGES = {
+  'id': { flag: '🇮🇩', label: 'Indonesia', name: 'Bahasa Indonesia' },
+  'en': { flag: '🇬🇧', label: 'English', name: 'English' },
+  'ja': { flag: '🇯🇵', label: '日本語', name: 'Japanese' },
+  'ko': { flag: '🇰🇷', label: '한국어', name: 'Korean' },
+  'zh': { flag: '🇨🇳', label: '中文', name: 'Chinese' },
+  'es': { flag: '🇪🇸', label: 'Español', name: 'Spanish' },
+  'fr': { flag: '🇫🇷', label: 'Français', name: 'French' },
+  'de': { flag: '🇩🇪', label: 'Deutsch', name: 'German' },
+  'pt': { flag: '🇵🇹', label: 'Português', name: 'Portuguese' },
+  'ru': { flag: '🇷🇺', label: 'Русский', name: 'Russian' },
+  'ar': { flag: '🇦🇪', label: 'العربية', name: 'Arabic' },
+  'hi': { flag: '🇮🇳', label: 'हिन्दी', name: 'Hindi' }
+};
+
+const TRANSLATIONS = {
+  id: {
+    navHome: 'Home', navAbout: 'Tentang', navSkills: 'Keahlian',
+    navProjects: 'Proyek', navPortfolio: 'Portfolio', navContact: 'Kontak',
+    heroGreeting: 'SELAMAT DATANG DI DUNIAKU',
+    heroName: 'HALO, SAYA <span class="highlight">Fachrel Amrillah</span>',
+    heroDesc: 'Menciptakan pengalaman digital yang memadukan kreativitas dengan teknologi terkini. Bersemangat membangun solusi web yang indah, fungsional, dan berdampak.',
+    heroExplore: '<i class="fas fa-rocket"></i> Jelajahi Portfolio',
+    heroDownload: '<i class="fas fa-download"></i> Download CV',
+    scroll: 'GULIR',
+    quote: 'Kode itu seperti puisi — harus bersih, elegan, dan bermakna <cite>&mdash; Fachrel Amrillah</cite>',
+    aboutTitle: 'Tentang Saya', aboutHeading2: 'Kenali Saya', aboutSub: 'Kenali perjalanan belajar, minat, dan kemampuan saya.',
+    aboutHeading: 'Pelajar SMK &amp; Creative Learner',
+    aboutP1: 'Saya adalah seorang pelajar SMK yang memiliki minat di bidang teknologi, desain, dan pengembangan website. Saya senang mempelajari hal-hal baru, membuat desain yang menarik, dan mencoba membangun project kreatif untuk menambah pengalaman dan kemampuan saya.',
+    aboutP2: 'Saat ini saya terus belajar mengembangkan skill dalam pembuatan website, desain UI/UX, editing, dan berbagai hal yang berhubungan dengan dunia digital. Saya suka mengeksplorasi ide baru dan membuat sesuatu yang menarik serta bermanfaat.',
+    aboutBadge: 'Freelancer Teratas 2026',
+    statProject: 'Project Pembelajaran', statYear: 'Tahun Belajar', statClient: 'Klien Puas', statSkill: 'Semangat Belajar',
+    skillsTitle: 'Keahlian Saya', skillsHeading: 'Teknologi &amp; Alat', skillsSub: 'Teknologi & alat yang saya gunakan',
+    projectsTitle: 'Proyek Saya', projectsHeading: 'Karya &amp; Pembelajaran', projectsSub: 'Beberapa project yang saya buat untuk belajar dan mengembangkan kemampuan.',
+    portTitle: 'Portfolio', portHeading: 'Galeri Portfolio', portSub: 'Karya kreatif saya',
+    all: 'Semua', web: 'Web', design: 'Desain', branding: 'Branding',
+    expTitle: 'Pengalaman', expHeading: 'Perjalanan Saya', expSub: 'Perjalanan belajar dan perkembangan kemampuan saya.',
+    testTitle: 'Testimonial', testHeading: 'Kata Mereka', testSub: 'Beberapa pendapat dari teman dan orang di sekitar saya.',
+    contactTitle: 'Kontak', contactHeading: 'Hubungi Saya', contactSub: 'Mari bekerja sama dalam proyek Anda berikutnya',
+    contactName: 'Nama Lengkap', contactEmail: 'Email', contactSubject: 'Subjek',
+    contactMsg: 'Pesan Anda...', contactSend: '<i class="fas fa-paper-plane"></i> Kirim Pesan',
+    socialWA: 'WhatsApp', socialIG: 'Instagram', socialTT: 'TikTok', socialGH: 'GitHub', socialEmail: 'Email',
+    visit: 'Kunjungi',
+    footer: '&copy; 2026 Fachrel Amrillah. All Rights Reserved. Made with <span style="color:#FF5DA2">&hearts;</span>',
+    alertDownloadCV: 'Download CV - Segera Hadir!'
+  },
+  en: {
+    navHome: 'Home', navAbout: 'About', navSkills: 'Skills',
+    navProjects: 'Projects', navPortfolio: 'Portfolio', navContact: 'Contact',
+    heroGreeting: 'WELCOME TO MY WORLD',
+    heroName: 'HELLO, I AM <span class="highlight">Fachrel Amrillah</span>',
+    heroDesc: 'Crafting digital experiences that blend creativity with cutting-edge technology. Passionate about building beautiful, functional, and impactful web solutions.',
+    heroExplore: '<i class="fas fa-rocket"></i> Explore Portfolio',
+    heroDownload: '<i class="fas fa-download"></i> Download CV',
+    scroll: 'SCROLL',
+    quote: 'Code is like poetry — it should be clean, elegant, and meaningful <cite>&mdash; Fachrel Amrillah</cite>',
+    aboutTitle: 'About Me', aboutHeading2: 'Get To Know Me', aboutSub: 'Get to know my learning journey, interests, and abilities.',
+    aboutHeading: 'Vocational Student &amp; Creative Learner',
+    aboutP1: 'I am a vocational high school student with an interest in technology, design, and web development. I enjoy learning new things, creating interesting designs, and building creative projects to gain experience and improve my skills.',
+    aboutP2: 'Currently I continue to develop my skills in website development, UI/UX design, editing, and various things related to the digital world. I love exploring new ideas and creating something useful and interesting.',
+    aboutBadge: 'Top Rated Freelancer 2026',
+    statProject: 'Learning Projects', statYear: 'Years Learning', statClient: 'Happy Clients', statSkill: 'Learning Spirit',
+    skillsTitle: 'My Skills', skillsHeading: 'Technologies &amp; Tools', skillsSub: 'Technologies & tools I work with',
+    projectsTitle: 'My Projects', projectsHeading: 'Works &amp; Learning', projectsSub: 'Some projects I built to learn and develop my skills.',
+    portTitle: 'Portfolio', portHeading: 'Portfolio Gallery', portSub: 'A showcase of my creative work',
+    all: 'All', web: 'Web', design: 'Design', branding: 'Branding',
+    expTitle: 'Experience', expHeading: 'My Journey', expSub: 'Learning journey and skill development.',
+    testTitle: 'Testimonial', testHeading: 'What People Say', testSub: 'Some thoughts from friends and people around me.',
+    contactTitle: 'Contact', contactHeading: 'Get In Touch', contactSub: 'Let\'s work together on your next project',
+    contactName: 'Full Name', contactEmail: 'Email', contactSubject: 'Subject',
+    contactMsg: 'Your Message...', contactSend: '<i class="fas fa-paper-plane"></i> Send Message',
+    socialWA: 'WhatsApp', socialIG: 'Instagram', socialTT: 'TikTok', socialGH: 'GitHub', socialEmail: 'Email',
+    visit: 'Visit',
+    footer: '&copy; 2026 Fachrel Amrillah. All Rights Reserved. Made with <span style="color:#FF5DA2">&hearts;</span>',
+    alertDownloadCV: 'Download CV - Coming Soon!'
+  },
+  ja: {
+    navHome: 'ホーム', navAbout: '私について', navSkills: 'スキル',
+    navProjects: 'プロジェクト', navPortfolio: 'ポートフォリオ', navContact: 'お問い合わせ',
+    heroGreeting: '私の世界へようこそ',
+    heroName: 'こんにちは、<span class="highlight">Fachrel Amrillah</span>です',
+    heroDesc: '創造性と最先端技術を融合したデジタル体験を創り出します。美しく、機能的で、影響力のあるウェブソリューションの構築に情熱を注いでいます。',
+    heroExplore: '<i class="fas fa-rocket"></i> ポートフォリオを見る',
+    heroDownload: '<i class="fas fa-download"></i> CVをダウンロード',
+    scroll: 'スクロール',
+    quote: 'コードは詩のようなもの — 清潔で、優雅で、意味のあるものであるべきだ <cite>&mdash; Fachrel Amrillah</cite>',
+    aboutTitle: '私について', aboutHeading2: '知ってください', aboutSub: '私の旅、スキル、情熱をご覧ください',
+    aboutHeading: 'クリエイティブデベロッパー &amp;',
+    aboutP1: '美しくインタラクティブなデジタル体験を創り出すことに情熱を注ぐクリエイティブデベロッパーです。デザインと開発の両方の専門知識を活かし、クリーンなコードと魅力的なビジュアルでアイデアを実現します。',
+    aboutP2: 'テクノロジーの世界での私の旅は好奇心から始まり、モダンなウェブアプリケーションの構築、直感的なインターフェースの設計、インスピレーションを与えるコンテンツの作成へと成長しました。',
+    aboutBadge: 'トップ評価フリーランサー2026',
+    statProject: 'Learning Projects', statYear: 'Years Learning', statClient: '満足したクライアント', statSkill: 'Learning Spirit',
+    skillsTitle: 'スキル', skillsHeading: '技術とツール', skillsSub: '使用するテクノロジーとツール',
+    projectsTitle: 'プロジェクト', projectsHeading: '最近の作品', projectsSub: '最近の作品',
+    portTitle: 'ポートフォリオ', portHeading: 'ギャラリー', portSub: '創造的な作品のショーケース',
+    all: 'すべて', web: 'ウェブ', design: 'デザイン', branding: 'ブランディング',
+    expTitle: '経験', expHeading: '私の歩み', expSub: 'Learning journey and skill development.',
+    testTitle: '声', testHeading: '人々の声', testSub: 'Some thoughts from friends and people around me.',
+    contactTitle: '連絡先', contactHeading: 'お問い合わせ', contactSub: 'あなたの次のプロジェクトで一緒に働きましょう',
+    contactName: '氏名', contactEmail: 'メール', contactSubject: '件名',
+    contactMsg: 'メッセージ...', contactSend: '<i class="fas fa-paper-plane"></i> 送信',
+    socialWA: 'WhatsApp', socialIG: 'Instagram', socialTT: 'TikTok', socialGH: 'GitHub', socialEmail: 'メール',
+    visit: 'アクセス',
+    footer: '&copy; 2026 Fachrel Amrillah. All Rights Reserved. Made with <span style="color:#FF5DA2">&hearts;</span>',
+    alertDownloadCV: 'CVダウンロード - 近日公開！'
+  },
+  ko: {
+    navHome: '홈', navAbout: '소개', navSkills: '스킬',
+    navProjects: '프로젝트', navPortfolio: '포트폴리오', navContact: '연락처',
+    heroGreeting: '내 세계에 오신 것을 환영합니다',
+    heroName: '안녕하세요, <span class="highlight">Fachrel Amrillah</span>입니다',
+    heroDesc: '창의성과 최첨단 기술을 결합한 디지털 경험을 창조합니다. 아름답고 기능적이며 영향력 있는 웹 솔루션을 구축하는 데 열정을 쏟고 있습니다.',
+    heroExplore: '<i class="fas fa-rocket"></i> 포트폴리오 보기',
+    heroDownload: '<i class="fas fa-download"></i> CV 다운로드',
+    scroll: '스크롤',
+    quote: '코드는 시와 같습니다 — 깨끗하고, 우아하며, 의미 있어야 합니다 <cite>&mdash; Fachrel Amrillah</cite>',
+    aboutTitle: '소개', aboutHeading2: '저에 대해 알아보세요', aboutSub: '제 여정, 기술, 열정을 발견하세요',
+    aboutHeading: '크리에이티브 개발자 &amp;',
+    aboutP1: '아름답고 인터랙티브한 디지털 경험을 만드는 데 열정을 가진 크리에이티브 개발자입니다. 디자인과 개발 모두에 전문성을 가지고 있으며, 깨끗한 코드와 멋진 비주얼로 아이디어를 실현합니다.',
+    aboutP2: '기술 분야에서의 여정은 호기심에서 시작되어 현대 웹 애플리케이션 구축, 직관적인 인터페이스 디자인, 영감을 주는 콘텐츠 제작으로 발전했습니다.',
+    aboutBadge: '최고 평가 프리랜서 2026',
+    statProject: 'Learning Projects', statYear: 'Years Learning', statClient: '만족한 클라이언트', statSkill: 'Learning Spirit',
+    skillsTitle: '스킬', skillsHeading: '기술 및 도구', skillsSub: '사용하는 기술 및 도구',
+    projectsTitle: '프로젝트', projectsHeading: '최근 작업', projectsSub: '최근 작업물',
+    portTitle: '포트폴리오', portHeading: '갤러리', portSub: '창의적인 작업 쇼케이스',
+    all: '전체', web: '웹', design: '디자인', branding: '브랜딩',
+    expTitle: '경험', expHeading: '내 여정', expSub: 'Learning journey and skill development.',
+    testTitle: '추천사', testHeading: '사람들의 말', testSub: 'Some thoughts from friends and people around me.',
+    contactTitle: '연락처', contactHeading: '연락하기', contactSub: '다음 프로젝트를 위해 함께 작업합시다',
+    contactName: '성함', contactEmail: '이메일', contactSubject: '제목',
+    contactMsg: '메시지...', contactSend: '<i class="fas fa-paper-plane"></i> 메시지 보내기',
+    socialWA: 'WhatsApp', socialIG: 'Instagram', socialTT: 'TikTok', socialGH: 'GitHub', socialEmail: '이메일',
+    visit: '방문',
+    footer: '&copy; 2026 Fachrel Amrillah. All Rights Reserved. Made with <span style="color:#FF5DA2">&hearts;</span>',
+    alertDownloadCV: 'CV 다운로드 - 곧 출시!'
+  },
+  zh: {
+    navHome: '首页', navAbout: '关于', navSkills: '技能',
+    navProjects: '项目', navPortfolio: '作品集', navContact: '联系',
+    heroGreeting: '欢迎来到我的世界',
+    heroName: '你好，我是<span class="highlight">Fachrel Amrillah</span>',
+    heroDesc: '打造融合创造力与尖端技术的数字体验。热衷于构建美观、实用且有影响力的网络解决方案。',
+    heroExplore: '<i class="fas fa-rocket"></i> 浏览作品集',
+    heroDownload: '<i class="fas fa-download"></i> 下载简历',
+    scroll: '滚动',
+    quote: '代码如诗 — 应当简洁、优雅且富有意义 <cite>&mdash; Fachrel Amrillah</cite>',
+    aboutTitle: '关于我', aboutHeading2: '了解我', aboutSub: '发现我的旅程、技能和热情',
+    aboutHeading: '创意开发者 &amp;',
+    aboutP1: '我是一名充满热情的创意开发者，热爱打造美观且互动的数字体验。凭借设计和开发方面的专业知识，我通过简洁的代码和令人惊叹的视觉效果将创意变为现实。',
+    aboutP2: '我的技术之旅始于好奇心，现已发展成为一份成熟的事业 — 构建现代网络应用、设计直观界面以及创作鼓舞人心的内容。',
+    aboutBadge: '2026年顶级自由职业者',
+    statProject: 'Learning Projects', statYear: 'Years Learning', statClient: '满意客户', statSkill: 'Learning Spirit',
+    skillsTitle: '技能', skillsHeading: '技术与工具', skillsSub: '我使用的技术和工具',
+    projectsTitle: '项目', projectsHeading: '近期作品', projectsSub: '近期作品',
+    portTitle: '作品集', portHeading: '作品画廊', portSub: '我的创意作品展示',
+    all: '全部', web: '网页', design: '设计', branding: '品牌',
+    expTitle: '经验', expHeading: '我的历程', expSub: 'Learning journey and skill development.',
+    testTitle: '评价', testHeading: '客户评价', testSub: 'Some thoughts from friends and people around me.',
+    contactTitle: '联系', contactHeading: '联系我', contactSub: '让我们一起完成您的下一个项目',
+    contactName: '姓名', contactEmail: '邮箱', contactSubject: '主题',
+    contactMsg: '您的留言...', contactSend: '<i class="fas fa-paper-plane"></i> 发送消息',
+    socialWA: 'WhatsApp', socialIG: 'Instagram', socialTT: 'TikTok', socialGH: 'GitHub', socialEmail: '邮箱',
+    visit: '访问',
+    footer: '&copy; 2026 Fachrel Amrillah. All Rights Reserved. Made with <span style="color:#FF5DA2">&hearts;</span>',
+    alertDownloadCV: '简历下载 - 即将推出！'
+  },
+  es: {
+    navHome: 'Inicio', navAbout: 'Sobre mí', navSkills: 'Habilidades',
+    navProjects: 'Proyectos', navPortfolio: 'Portafolio', navContact: 'Contacto',
+    heroGreeting: 'BIENVENIDO A MI MUNDO',
+    heroName: 'HOLA, SOY <span class="highlight">Fachrel Amrillah</span>',
+    heroDesc: 'Creando experiencias digitales que combinan creatividad con tecnología de vanguardia. Apasionado por construir soluciones web hermosas, funcionales e impactantes.',
+    heroExplore: '<i class="fas fa-rocket"></i> Explorar Portafolio',
+    heroDownload: '<i class="fas fa-download"></i> Descargar CV',
+    scroll: 'DESPLAZAR',
+    quote: 'El código es como la poesía — debe ser limpio, elegante y significativo <cite>&mdash; Fachrel Amrillah</cite>',
+    aboutTitle: 'Sobre Mí', aboutHeading2: 'Conóceme', aboutSub: 'Descubre mi viaje, habilidades y pasión',
+    aboutHeading: 'Desarrollador Creativo &amp;',
+    aboutP1: 'Soy un desarrollador creativo apasionado por crear experiencias digitales hermosas e interactivas. Con experiencia tanto en diseño como en desarrollo, doy vida a las ideas a través de código limpio y visuales impresionantes.',
+    aboutP2: 'Mi viaje en la tecnología comenzó con curiosidad y ha evolucionado hasta convertirse en una carrera completa construyendo aplicaciones web modernas, diseñando interfaces intuitivas y creando contenido que inspira.',
+    aboutBadge: 'Freelancer Mejor Calificado 2026',
+    statProject: 'Learning Projects', statYear: 'Years Learning', statClient: 'Clientes Felices', statSkill: 'Learning Spirit',
+    skillsTitle: 'Habilidades', skillsHeading: 'Tecnologías y Herramientas', skillsSub: 'Tecnologías y herramientas que uso',
+    projectsTitle: 'Proyectos', projectsHeading: 'Trabajos Recientes', projectsSub: 'Algunos de mis trabajos recientes',
+    portTitle: 'Portafolio', portHeading: 'Galería', portSub: 'Una muestra de mi trabajo creativo',
+    all: 'Todos', web: 'Web', design: 'Diseño', branding: 'Marca',
+    expTitle: 'Experiencia', expHeading: 'Mi Trayectoria', expSub: 'Learning journey and skill development.',
+    testTitle: 'Testimonios', testHeading: 'Lo Que Dicen', testSub: 'Some thoughts from friends and people around me.',
+    contactTitle: 'Contacto', contactHeading: 'Contáctame', contactSub: 'Trabajemos juntos en tu próximo proyecto',
+    contactName: 'Nombre Completo', contactEmail: 'Correo', contactSubject: 'Asunto',
+    contactMsg: 'Tu Mensaje...', contactSend: '<i class="fas fa-paper-plane"></i> Enviar Mensaje',
+    socialWA: 'WhatsApp', socialIG: 'Instagram', socialTT: 'TikTok', socialGH: 'GitHub', socialEmail: 'Correo',
+    visit: 'Visitar',
+    footer: '&copy; 2026 Fachrel Amrillah. All Rights Reserved. Made with <span style="color:#FF5DA2">&hearts;</span>',
+    alertDownloadCV: 'Descargar CV - ¡Próximamente!'
+  },
+  fr: {
+    navHome: 'Accueil', navAbout: 'À propos', navSkills: 'Compétences',
+    navProjects: 'Projets', navPortfolio: 'Portfolio', navContact: 'Contact',
+    heroGreeting: 'BIENVENUE DANS MON MONDE',
+    heroName: 'BONJOUR, JE SUIS <span class="highlight">Fachrel Amrillah</span>',
+    heroDesc: 'Créer des expériences numériques qui allient créativité et technologie de pointe. Passionné par la construction de solutions web belles, fonctionnelles et percutantes.',
+    heroExplore: '<i class="fas fa-rocket"></i> Explorer le Portfolio',
+    heroDownload: '<i class="fas fa-download"></i> Télécharger CV',
+    scroll: 'DÉFILER',
+    quote: 'Le code est comme la poésie — il doit être propre, élégant et significatif <cite>&mdash; Fachrel Amrillah</cite>',
+    aboutTitle: 'À Propos', aboutHeading2: 'Apprenez à me connaître', aboutSub: 'Découvrez mon parcours, mes compétences et ma passion',
+    aboutHeading: 'Développeur Créatif &amp;',
+    aboutP1: 'Je suis un développeur créatif passionné par la création d\'expériences numériques belles et interactives. Avec une expertise en design et développement, je donne vie aux idées grâce à un code propre et des visuels époustouflants.',
+    aboutP2: 'Mon parcours dans la tech a commencé par curiosité et a évolué vers une carrière complète de création d\'applications web modernes, de conception d\'interfaces intuitives et de contenu inspirant.',
+    aboutBadge: 'Freelance le Mieux Noté 2026',
+    statProject: 'Learning Projects', statYear: 'Years Learning', statClient: 'Clients Satisfaits', statSkill: 'Learning Spirit',
+    skillsTitle: 'Compétences', skillsHeading: 'Technologies et Outils', skillsSub: 'Technologies et outils que j\'utilise',
+    projectsTitle: 'Projets', projectsHeading: 'Travaux Récents', projectsSub: 'Quelques-uns de mes travaux récents',
+    portTitle: 'Portfolio', portHeading: 'Galerie', portSub: 'Un aperçu de mon travail créatif',
+    all: 'Tous', web: 'Web', design: 'Design', branding: 'Marque',
+    expTitle: 'Expérience', expHeading: 'Mon Parcours', expSub: 'Learning journey and skill development.',
+    testTitle: 'Témoignages', testHeading: 'Ce Qu\'ils Disent', testSub: 'Some thoughts from friends and people around me.',
+    contactTitle: 'Contact', contactHeading: 'Contactez-Moi', contactSub: 'Travaillons ensemble sur votre prochain projet',
+    contactName: 'Nom Complet', contactEmail: 'Email', contactSubject: 'Sujet',
+    contactMsg: 'Votre Message...', contactSend: '<i class="fas fa-paper-plane"></i> Envoyer',
+    socialWA: 'WhatsApp', socialIG: 'Instagram', socialTT: 'TikTok', socialGH: 'GitHub', socialEmail: 'Email',
+    visit: 'Visiter',
+    footer: '&copy; 2026 Fachrel Amrillah. All Rights Reserved. Made with <span style="color:#FF5DA2">&hearts;</span>',
+    alertDownloadCV: 'Télécharger CV - Bientôt disponible!'
+  },
+  de: {
+    navHome: 'Start', navAbout: 'Über mich', navSkills: 'Fähigkeiten',
+    navProjects: 'Projekte', navPortfolio: 'Portfolio', navContact: 'Kontakt',
+    heroGreeting: 'WILLKOMMEN IN MEINER WELT',
+    heroName: 'HALLO, ICH BIN <span class="highlight">Fachrel Amrillah</span>',
+    heroDesc: 'Digitale Erlebnisse schaffen, die Kreativität mit modernster Technologie verbinden. Leidenschaftlich daran, schöne, funktionale und wirkungsvolle Web-Lösungen zu bauen.',
+    heroExplore: '<i class="fas fa-rocket"></i> Portfolio erkunden',
+    heroDownload: '<i class="fas fa-download"></i> CV herunterladen',
+    scroll: 'SCROLLEN',
+    quote: 'Code ist wie Poesie — er sollte sauber, elegant und bedeutungsvoll sein <cite>&mdash; Fachrel Amrillah</cite>',
+    aboutTitle: 'Über Mich', aboutHeading2: 'Lernen Sie mich kennen', aboutSub: 'Entdecken Sie meine Reise, Fähigkeiten und Leidenschaft',
+    aboutHeading: 'Kreativer Entwickler &amp;',
+    aboutP1: 'Ich bin ein leidenschaftlicher kreativer Entwickler, der schöne, interaktive digitale Erlebnisse schafft. Mit Fachkenntnissen in Design und Entwicklung erwecke ich Ideen durch sauberen Code und atemberaubende Visuals zum Leben.',
+    aboutP2: 'Meine Reise in der Technologie begann aus Neugier und hat sich zu einer vollwertigen Karriere entwickelt, in der ich moderne Webanwendungen baue, intuitive Oberflächen gestalte und inspirierende Inhalte erstelle.',
+    aboutBadge: 'Top-bewerteter Freelancer 2026',
+    statProject: 'Learning Projects', statYear: 'Years Learning', statClient: 'Zufriedene Kunden', statSkill: 'Learning Spirit',
+    skillsTitle: 'Fähigkeiten', skillsHeading: 'Technologien und Werkzeuge', skillsSub: 'Technologien und Werkzeuge, die ich nutze',
+    projectsTitle: 'Projekte', projectsHeading: 'Aktuelle Arbeiten', projectsSub: 'Einige meiner aktuellen Arbeiten',
+    portTitle: 'Portfolio', portHeading: 'Galerie', portSub: 'Eine Ausstellung meiner kreativen Arbeit',
+    all: 'Alle', web: 'Web', design: 'Design', branding: 'Marke',
+    expTitle: 'Erfahrung', expHeading: 'Mein Werdegang', expSub: 'Learning journey and skill development.',
+    testTitle: 'Testimonials', testHeading: 'Was andere sagen', testSub: 'Some thoughts from friends and people around me.',
+    contactTitle: 'Kontakt', contactHeading: 'Kontakt', contactSub: 'Lassen Sie uns an Ihrem nächsten Projekt zusammenarbeiten',
+    contactName: 'Vollständiger Name', contactEmail: 'E-Mail', contactSubject: 'Betreff',
+    contactMsg: 'Ihre Nachricht...', contactSend: '<i class="fas fa-paper-plane"></i> Nachricht senden',
+    socialWA: 'WhatsApp', socialIG: 'Instagram', socialTT: 'TikTok', socialGH: 'GitHub', socialEmail: 'E-Mail',
+    visit: 'Besuchen',
+    footer: '&copy; 2026 Fachrel Amrillah. All Rights Reserved. Made with <span style="color:#FF5DA2">&hearts;</span>',
+    alertDownloadCV: 'CV herunterladen - Bald verfügbar!'
+  },
+  pt: {
+    navHome: 'Início', navAbout: 'Sobre', navSkills: 'Habilidades',
+    navProjects: 'Projetos', navPortfolio: 'Portfólio', navContact: 'Contato',
+    heroGreeting: 'BEM-VINDO AO MEU MUNDO',
+    heroName: 'OLÁ, EU SOU <span class="highlight">Fachrel Amrillah</span>',
+    heroDesc: 'Criando experiências digitais que combinam criatividade com tecnologia de ponta. Apaixonado por construir soluções web bonitas, funcionais e impactantes.',
+    heroExplore: '<i class="fas fa-rocket"></i> Explorar Portfólio',
+    heroDownload: '<i class="fas fa-download"></i> Baixar CV',
+    scroll: 'ROLAR',
+    quote: 'Código é como poesia — deve ser limpo, elegante e significativo <cite>&mdash; Fachrel Amrillah</cite>',
+    aboutTitle: 'Sobre Mim', aboutHeading2: 'Conheça-me', aboutSub: 'Descubra minha jornada, habilidades e paixão',
+    aboutHeading: 'Desenvolvedor Criativo &amp;',
+    aboutP1: 'Sou um desenvolvedor criativo apaixonado por criar experiências digitais bonitas e interativas. Com expertise em design e desenvolvimento, trago ideias à vida através de código limpo e visuais impressionantes.',
+    aboutP2: 'Minha jornada na tecnologia começou com curiosidade e evoluiu para uma carreira completa construindo aplicações web modernas, projetando interfaces intuitivas e criando conteúdo que inspira.',
+    aboutBadge: 'Freelancer Mais Bem Avaliado 2026',
+    statProject: 'Learning Projects', statYear: 'Years Learning', statClient: 'Clientes Satisfeitos', statSkill: 'Learning Spirit',
+    skillsTitle: 'Habilidades', skillsHeading: 'Tecnologias e Ferramentas', skillsSub: 'Tecnologias e ferramentas que uso',
+    projectsTitle: 'Projetos', projectsHeading: 'Trabalhos Recentes', projectsSub: 'Alguns dos meus trabalhos recentes',
+    portTitle: 'Portfólio', portHeading: 'Galeria', portSub: 'Uma amostra do meu trabalho criativo',
+    all: 'Todos', web: 'Web', design: 'Design', branding: 'Marca',
+    expTitle: 'Experiência', expHeading: 'Minha Jornada', expSub: 'Learning journey and skill development.',
+    testTitle: 'Depoimentos', testHeading: 'O Que Dizem', testSub: 'Some thoughts from friends and people around me.',
+    contactTitle: 'Contato', contactHeading: 'Entre em Contato', contactSub: 'Vamos trabalhar juntos no seu próximo projeto',
+    contactName: 'Nome Completo', contactEmail: 'Email', contactSubject: 'Assunto',
+    contactMsg: 'Sua Mensagem...', contactSend: '<i class="fas fa-paper-plane"></i> Enviar Mensagem',
+    socialWA: 'WhatsApp', socialIG: 'Instagram', socialTT: 'TikTok', socialGH: 'GitHub', socialEmail: 'Email',
+    visit: 'Visitar',
+    footer: '&copy; 2026 Fachrel Amrillah. All Rights Reserved. Made with <span style="color:#FF5DA2">&hearts;</span>',
+    alertDownloadCV: 'Baixar CV - Em Breve!'
+  },
+  ru: {
+    navHome: 'Главная', navAbout: 'Обо мне', navSkills: 'Навыки',
+    navProjects: 'Проекты', navPortfolio: 'Портфолио', navContact: 'Контакты',
+    heroGreeting: 'ДОБРО ПОЖАЛОВАТЬ В МОЙ МИР',
+    heroName: 'ПРИВЕТ, Я <span class="highlight">Fachrel Amrillah</span>',
+    heroDesc: 'Создаю цифровые впечатления, сочетающие креативность с передовыми технологиями. Увлечен созданием красивых, функциональных и эффективных веб-решений.',
+    heroExplore: '<i class="fas fa-rocket"></i> Изучить портфолио',
+    heroDownload: '<i class="fas fa-download"></i> Скачать резюме',
+    scroll: 'ПРОКРУТИТЬ',
+    quote: 'Код как поэзия — он должен быть чистым, элегантным и осмысленным <cite>&mdash; Fachrel Amrillah</cite>',
+    aboutTitle: 'Обо Мне', aboutHeading2: 'Узнайте меня', aboutSub: 'Откройте мой путь, навыки и страсть',
+    aboutHeading: 'Креативный разработчик &amp;',
+    aboutP1: 'Я креативный разработчик, увлеченный созданием красивых интерактивных цифровых впечатлений. Обладая опытом в дизайне и разработке, я воплощаю идеи в жизнь с помощью чистого кода и потрясающих визуальных эффектов.',
+    aboutP2: 'Мой путь в технологиях начался с любопытства и превратился в полноценную карьеру по созданию современных веб-приложений, проектированию интуитивных интерфейсов и созданию вдохновляющего контента.',
+    aboutBadge: 'Лучший фрилансер 2026',
+    statProject: 'Learning Projects', statYear: 'Years Learning', statClient: 'Довольных клиентов', statSkill: 'Learning Spirit',
+    skillsTitle: 'Навыки', skillsHeading: 'Технологии и Инструменты', skillsSub: 'Технологии и инструменты, с которыми я работаю',
+    projectsTitle: 'Проекты', projectsHeading: 'Последние Работы', projectsSub: 'Некоторые из моих последних работ',
+    portTitle: 'Портфолио', portHeading: 'Галерея', portSub: 'Демонстрация моих творческих работ',
+    all: 'Все', web: 'Веб', design: 'Дизайн', branding: 'Брендинг',
+    expTitle: 'Опыт', expHeading: 'Мой Путь', expSub: 'Learning journey and skill development.',
+    testTitle: 'Отзывы', testHeading: 'Что Говорят Люди', testSub: 'Some thoughts from friends and people around me.',
+    contactTitle: 'Контакты', contactHeading: 'Свяжитесь Со Мной', contactSub: 'Давайте работать вместе над вашим следующим проектом',
+    contactName: 'Полное имя', contactEmail: 'Email', contactSubject: 'Тема',
+    contactMsg: 'Ваше сообщение...', contactSend: '<i class="fas fa-paper-plane"></i> Отправить',
+    socialWA: 'WhatsApp', socialIG: 'Instagram', socialTT: 'TikTok', socialGH: 'GitHub', socialEmail: 'Email',
+    visit: 'Посетить',
+    footer: '&copy; 2026 Fachrel Amrillah. All Rights Reserved. Made with <span style="color:#FF5DA2">&hearts;</span>',
+    alertDownloadCV: 'Скачать резюме - Скоро!'
+  },
+  ar: {
+    navHome: 'الرئيسية', navAbout: 'عني', navSkills: 'المهارات',
+    navProjects: 'المشاريع', navPortfolio: 'معرض الأعمال', navContact: 'اتصل بي',
+    heroGreeting: 'مرحباً بك في عالمي',
+    heroName: 'مرحباً، أنا <span class="highlight">Fachrel Amrillah</span>',
+    heroDesc: 'أصنع تجارب رقمية تمزج بين الإبداع والتكنولوجيا المتطورة. شغوف ببناء حلول ويب جميلة ووظيفية ومؤثرة.',
+    heroExplore: '<i class="fas fa-rocket"></i> استعرض الأعمال',
+    heroDownload: '<i class="fas fa-download"></i> تحميل السيرة الذاتية',
+    scroll: 'تمرير',
+    quote: 'الكود مثل الشعر — يجب أن يكون نظيفاً وأنيقاً وذا معنى <cite>&mdash; Fachrel Amrillah</cite>',
+    aboutTitle: 'عني', aboutHeading2: 'تعرف علي', aboutSub: 'اكتشف رحلتي ومهاراتي وشغفي',
+    aboutHeading: 'مطور مبدع &amp;',
+    aboutP1: 'أنا مطور مبدع شغوف بصناعة تجارب رقمية جميلة وتفاعلية. بخبرتي في التصميم والتطوير، أحول الأفكار إلى واقع من خلال كود نظيف ومرئيات مذهلة.',
+    aboutP2: 'بدأت رحلتي في التكنولوجيا بدافع الفضول وتطورت إلى مهنة متكاملة في بناء تطبيقات الويب الحديثة، وتصميم واجهات بديهية، وإنشاء محتوى ملهم.',
+    aboutBadge: 'أفضل مستقل لعام 2026',
+    statProject: 'Project Pembelajaran', statYear: 'Tahun Belajar', statClient: 'عميل راضٍ', statSkill: 'Semangat Belajar',
+    skillsTitle: 'مهاراتي', skillsHeading: 'التقنيات والأدوات', skillsSub: 'التقنيات والأدوات التي أعمل بها',
+    projectsTitle: 'مشاريعي', projectsHeading: 'أعمالي الأخيرة', projectsSub: 'بعض أعمالي الأخيرة',
+    portTitle: 'معرض الأعمال', portHeading: 'المعرض', portSub: 'عرض لأعمالي الإبداعية',
+    all: 'الكل', web: 'ويب', design: 'تصميم', branding: 'علامة تجارية',
+    expTitle: 'الخبرة', expHeading: 'رحلتي', expSub: 'Learning journey and skill development.',
+    testTitle: 'الشهادات', testHeading: 'ماذا يقول الناس', testSub: 'Some thoughts from friends and people around me.',
+    contactTitle: 'اتصل بي', contactHeading: 'تواصل معي', contactSub: 'دعنا نعمل معاً في مشروعك القادم',
+    contactName: 'الاسم الكامل', contactEmail: 'البريد الإلكتروني', contactSubject: 'الموضوع',
+    contactMsg: 'رسالتك...', contactSend: '<i class="fas fa-paper-plane"></i> إرسال',
+    socialWA: 'واتساب', socialIG: 'إنستغرام', socialTT: 'تيك توك', socialGH: 'جيت هب', socialLI: 'لينكد إن', socialEmail: 'البريد الإلكتروني',
+    visit: 'زيارة',
+    footer: '&copy; 2026 Fachrel Amrillah. All Rights Reserved. Made with <span style="color:#FF5DA2">&hearts;</span>',
+    alertDownloadCV: 'تحميل السيرة الذاتية - قريباً!'
+  },
+  hi: {
+    navHome: 'होम', navAbout: 'मेरे बारे में', navSkills: 'कौशल',
+    navProjects: 'प्रोजेक्ट', navPortfolio: 'पोर्टफोलियो', navContact: 'संपर्क',
+    heroGreeting: 'मेरी दुनिया में आपका स्वागत है',
+    heroName: 'नमस्ते, मैं <span class="highlight">Fachrel Amrillah</span> हूँ',
+    heroDesc: 'रचनात्मकता और अत्याधुनिक तकनीक के मिश्रण से डिजिटल अनुभव तैयार करना। सुंदर, कार्यात्मक और प्रभावशाली वेब समाधान बनाने के प्रति जुनूनी।',
+    heroExplore: '<i class="fas fa-rocket"></i> पोर्टफोलियो देखें',
+    heroDownload: '<i class="fas fa-download"></i> CV डाउनलोड करें',
+    scroll: 'स्क्रॉल करें',
+    quote: 'कोड कविता की तरह है — यह साफ, सुरुचिपूर्ण और सार्थक होना चाहिए <cite>&mdash; Fachrel Amrillah</cite>',
+    aboutTitle: 'मेरे बारे में', aboutHeading2: 'मुझे जानें', aboutSub: 'मेरी यात्रा, कौशल और जुनून खोजें',
+    aboutHeading: 'क्रिएटिव डेवलपर &amp;',
+    aboutP1: 'मैं एक भावुक क्रिएटिव डेवलपर हूँ जो सुंदर, इंटरैक्टिव डिजिटल अनुभव बनाना पसंद करता हूँ। डिज़ाइन और डेवलपमेंट दोनों में विशेषज्ञता के साथ, मैं साफ कोड और शानदार विज़ुअल्स के माध्यम से विचारों को जीवन देता हूँ।',
+    aboutP2: 'प्रौद्योगिकी में मेरी यात्रा जिज्ञासा से शुरू हुई और आधुनिक वेब एप्लिकेशन बनाने, सहज इंटरफेस डिजाइन करने और प्रेरित करने वाली सामग्री बनाने के पूर्ण करियर में विकसित हुई।',
+    aboutBadge: 'शीर्ष रेटेड फ्रीलांसर 2026',
+    statProject: 'Project Pembelajaran', statYear: 'Tahun Belajar', statClient: 'संतुष्ट ग्राहक', statSkill: 'Semangat Belajar',
+    skillsTitle: 'कौशल', skillsHeading: 'प्रौद्योगिकियां और उपकरण', skillsSub: 'प्रौद्योगिकियां और उपकरण जिनके साथ मैं काम करता हूँ',
+    projectsTitle: 'प्रोजेक्ट', projectsHeading: 'हालिया काम', projectsSub: 'मेरे कुछ हालिया काम',
+    portTitle: 'पोर्टफोलियो', portHeading: 'गैलरी', portSub: 'मेरे रचनात्मक काम की प्रदर्शनी',
+    all: 'सभी', web: 'वेब', design: 'डिज़ाइन', branding: 'ब्रांडिंग',
+    expTitle: 'अनुभव', expHeading: 'मेरी यात्रा', expSub: 'Learning journey and skill development.',
+    testTitle: 'प्रशंसापत्र', testHeading: 'लोग क्या कहते हैं', testSub: 'Some thoughts from friends and people around me.',
+    contactTitle: 'संपर्क', contactHeading: 'संपर्क करें', contactSub: 'आइए आपके अगले प्रोजेक्ट पर एक साथ काम करें',
+    contactName: 'पूरा नाम', contactEmail: 'ईमेल', contactSubject: 'विषय',
+    contactMsg: 'आपका संदेश...', contactSend: '<i class="fas fa-paper-plane"></i> संदेश भेजें',
+    socialWA: 'WhatsApp', socialIG: 'Instagram', socialTT: 'TikTok', socialGH: 'GitHub', socialEmail: 'ईमेल',
+    visit: 'विज़िट',
+    footer: '&copy; 2026 Fachrel Amrillah. All Rights Reserved. Made with <span style="color:#FF5DA2">&hearts;</span>',
+    alertDownloadCV: 'CV डाउनलोड - जल्द आ रहा है!'
+  }
+};
+
+let currentLang = localStorage.getItem('lang') || 'id';
+
+function t(key) {
+  return TRANSLATIONS[currentLang]?.[key] || TRANSLATIONS['id']?.[key] || key;
+}
+
+function switchLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('lang', lang);
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const text = t(key);
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      el.placeholder = text;
+    } else if (el.tagName === 'TITLE') {
+      el.textContent = text;
+    } else {
+      el.innerHTML = text;
+    }
+  });
+  document.getElementById('langCurrent').innerHTML = '<span class="flag" id="langFlag">' + LANGUAGES[lang].flag + '</span> ' + lang.toUpperCase() + ' <i class="fas fa-chevron-down"></i>';
+  document.querySelectorAll('.lang-option').forEach(opt => {
+    opt.classList.toggle('active', opt.dataset.lang === lang);
+  });
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+}
+
+function buildLangDropdown() {
+  const dd = document.getElementById('langDropdown');
+  dd.innerHTML = '';
+  Object.entries(LANGUAGES).forEach(([code, info]) => {
+    const btn = document.createElement('button');
+    btn.className = 'lang-option' + (code === currentLang ? ' active' : '');
+    btn.dataset.lang = code;
+    btn.innerHTML = '<span class="flag">' + info.flag + '</span> ' + info.label;
+    btn.addEventListener('click', () => {
+      switchLanguage(code);
+      dd.classList.remove('open');
+      document.getElementById('langCurrent').classList.remove('open');
+    });
+    dd.appendChild(btn);
+  });
+}
+
+document.getElementById('langCurrent').addEventListener('click', (e) => {
+  e.stopPropagation();
+  document.getElementById('langDropdown').classList.toggle('open');
+  document.getElementById('langCurrent').classList.toggle('open');
+});
+
+document.addEventListener('click', () => {
+  document.getElementById('langDropdown').classList.remove('open');
+  document.getElementById('langCurrent').classList.remove('open');
+});
+
+buildLangDropdown();
+switchLanguage(currentLang);
+</script><div class="contact-toast" id="contactToast"></div>
+</body>
+</html>
